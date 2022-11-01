@@ -1,6 +1,6 @@
 const BALL_OBJECTS =[]
 // 基类
-class BallObject{
+export class BallObject{
 constructor() {
         BALL_OBJECTS.push(this);
         this.timedelta = 0
