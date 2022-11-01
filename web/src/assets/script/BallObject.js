@@ -1,3 +1,4 @@
+//所有渲染对象
 const BALL_OBJECTS =[]
 // 基类
 export class BallObject{

@@ -25,9 +25,6 @@ export class GameMap extends BallObject {
 
     update() {
         this.update_size();
-        if (this.check_ready()) {
-            this.next_step();
-        }
         this.render();
     }
 

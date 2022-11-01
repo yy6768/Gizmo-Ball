@@ -1,6 +1,6 @@
 <template>
   <div ref="parent" class="gamemap"> 
-    <canvas ref="canvas" tabindex="0"></canvas>
+    <canvas ref="canvas" tabindex="0" id="canvas"></canvas>
   </div>
 </template>
 
@@ -15,10 +15,12 @@ export default {
     }
   },
   mounted(){
-    this.parent = document.getElementsByClassName("gamemap")
+    this.parent = document.getElementsByClassName("gamemap")[0]
     this.canvas = document.getElementById("canvas");
+    console.log(this.parent)
+    console.log(this.canvas)
     let cxt = this.canvas.getContext("2d");
-    this.$store.commit("updateGameObject",new GameMap(cxt,this.parent.value,this.$store))
+    this.$store.commit("updateGameObject",new GameMap(cxt,this.parent,this.$store))
   }
 }
 </script>
@@ -28,5 +30,7 @@ div.gamemap{
     height: 95vh;
     width:100%;
     background-color:green;
+    display: flex;
+    justify-content: center;
 }
 </style>
