@@ -14,7 +14,30 @@ export class GameMap extends BallObject {
     }
 
     start(){
+        this.add_listening_events();
+    }
 
+    //获取当前鼠标位置
+    getEventPosition(event){
+        console.log(this.L);
+        let x = Math.floor(event.offsetX / this.L);
+        let y = Math.floor(event.offsetY / this.L);
+        return [x,y];
+    }   
+    
+    //地图绘制组件
+    draw(p){
+        console.log(p);
+    }
+
+    add_listening_events(){ 
+        if(this.store.state.layout.status === 'layout'){ //游玩模式绑定点击事件
+           
+            this.ctx.canvas.addEventListener("click",e =>{
+                let p = this.getEventPosition(e);
+                this.draw(p);
+            });
+        } 
     }
 
     update_size() {
