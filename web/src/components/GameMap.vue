@@ -17,10 +17,8 @@ export default {
   mounted(){
     this.parent = document.getElementsByClassName("gamemap")[0]
     this.canvas = document.getElementById("canvas");
-    console.log(this.parent)
-    console.log(this.canvas)
     let cxt = this.canvas.getContext("2d");
-    this.$store.commit("updateGameObject",new GameMap(cxt,this.parent,this.$store))
+    this.$store.commit("updateGameObject",new GameMap(cxt,this.parent,this.$store));
   }
 }
 </script>

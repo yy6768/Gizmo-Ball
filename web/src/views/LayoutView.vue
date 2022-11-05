@@ -31,7 +31,33 @@ import ContentField from '@/components/ContentField.vue'
 import ToolBar from '@/components/ToolBar.vue';
 import SwitchModeBar from '@/components/SwitchModeBar.vue';
 export default {
-  components:{ GameMap ,ContentField, ToolBar, SwitchModeBar}
+  components:{ GameMap ,ContentField, ToolBar, SwitchModeBar},
+  data(){
+    return{
+      socket:null,
+    }
+  },
+
+
+  mounted(){
+    const socketUrl = `ws://localhost:3000/websocket/`;
+    this.socket = new WebSocket(socketUrl);
+    this.socket.onopen = () => {
+      console.log("connected");
+      this.$store.commit("updateSocket", this.socket);
+    };
+    this.socket.onmessage = msg =>{
+      console.log(msg);
+    };
+    this.socket.onclose = () => {
+      console.log("disconnected!");
+    };
+  },
+
+  unmounted() { 
+    this.socket.close();
+  }
+
 }
 </script>
 
