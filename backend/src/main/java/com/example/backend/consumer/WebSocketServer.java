@@ -48,7 +48,7 @@ public class WebSocketServer {
 
     @OnMessage
     public void onMessage(String message,Session session) throws IOException {
-        System.out.println("received" + message);
+        System.out.println("received  " + message);
         if(message == null || message.length() == 0) throw  new IOException();
 
         if ("startGame".equals(message)) {
@@ -59,9 +59,10 @@ public class WebSocketServer {
         } else if(message.startsWith("lay")){
             String[] messages = message.split(" ");
 //            initWorld.add();
-        } else {
-            throw new IOException();
         }
+//        else {
+//            throw new IOException();
+//        }
     }
 
 

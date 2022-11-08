@@ -18,7 +18,8 @@ export default {
     this.parent = document.getElementsByClassName("gamemap")[0]
     this.canvas = document.getElementById("canvas");
     let cxt = this.canvas.getContext("2d");
-    this.$store.commit("updateGameObject",new GameMap(cxt,this.parent,this.$store));
+    this.$store.commit("updateMap",new GameMap(cxt,this.parent,this.$store));
+    this.$store.commit("updateGameObject","ball");
   }
 }
 </script>
