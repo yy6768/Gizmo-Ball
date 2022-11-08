@@ -5,7 +5,7 @@
          <game-map />
        </content-field>
     </div>
-    <div class="col-4">
+    <div class="col-3">
       <div class="row">
         <content-field>
           <tool-bar></tool-bar>    

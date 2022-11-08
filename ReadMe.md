@@ -132,3 +132,62 @@ physicsInterface模块
 #### Test
 
 通过了WebSocket测试
+
+
+
+
+
+### 提交5
+
+#### Issue
+
+toolbar和switchModeBar的实现
+
+#### Work
+
+1. 实现了toolBar
+2. 实现了switchModeBar
+
+#### Description
+
+更新：
+
+1. public/icon文件夹贴图素材
+2. toolBar.vue：选择素材组件按钮，组件操作按钮：旋转、删除、放大、缩小
+3. switchmodeBar.vue：选择器和按钮
+
+#### Test
+
+通过了界面测试
+
+
+
+
+
+### 提交5
+
+#### Issue
+
+实现了小球和圆形障碍物的绘制
+
+#### Work
+
+1. 实现了Ball类，添加了渲染和向后端发送消息功能，判断了是否为单例
+2. 实现了Circle类，添加了渲染和向后端发送消息的功能
+
+#### Description
+
+更新：
+
+1. Ball.js类完善了构造函数，添加了render函数
+2. 新增了Circle.js函数
+3. 更改了GameMap.js函数，完善了add()函数
+
+#### Test
+
+通过了使用测试
+
+
+
+
+
