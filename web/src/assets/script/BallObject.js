@@ -2,7 +2,7 @@
 const BALL_OBJECTS =[]
 // 基类
 export class BallObject{
-constructor() {
+    constructor() {
         BALL_OBJECTS.push(this);
         this.timedelta = 0
         this.has_called_start = false;//是否已经执行过
