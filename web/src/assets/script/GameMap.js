@@ -24,11 +24,13 @@ export class GameMap extends BallObject {
     //获取当前鼠标位置
     getEventPosition(event){
         // console.log(this.L);
+
         let x = Math.floor(event.offsetX / this.L);
         let y = Math.floor(event.offsetY / this.L);
         return [x,y];
     }   
     
+
     /*
       在地图添加组件
       1、判别类别
@@ -56,12 +58,21 @@ export class GameMap extends BallObject {
 
 
     //绑定事件
+
+    //地图绘制组件
+    draw(p){
+        console.log(p);
+    }
+
+
     add_listening_events(){ 
         if(this.store.state.layout.status === 'layout'){ //游玩模式绑定点击事件
            
             this.ctx.canvas.addEventListener("click",e =>{
                 let p = this.getEventPosition(e);
+
                 this.add(p);
+                this.draw(p);
             });
         } 
     }
