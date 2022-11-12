@@ -1,6 +1,7 @@
 package com.example.backend.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -40,4 +41,7 @@ public class CorsConfig implements Filter {
     @Override
     public void destroy() {
     }
+
+
+
 }

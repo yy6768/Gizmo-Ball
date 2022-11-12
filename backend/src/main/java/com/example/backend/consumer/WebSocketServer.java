@@ -2,13 +2,20 @@ package com.example.backend.consumer;
 
 
 import com.example.backend.consumer.utils.Game;
-import com.example.backend.physicsInterface.BallWorld;
+import com.example.backend.exception.MessageException;
+import com.example.backend.physicsInterface.GizmoObject;
+import com.example.backend.physicsInterface.GizmoWorld;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 
+/**
+ * 前后端建立连接通信
+ * 发送消息，后端实时判断信息并完成渲染
+ */
 @Component
 @ServerEndpoint("/websocket/")
 public class WebSocketServer {
@@ -18,9 +25,9 @@ public class WebSocketServer {
 
     private final Game game = null;
 
-    private final BallWorld initWorld = null;
+    private final GizmoWorld initWorld = null;
 
-    private void startGame(){
+    private void startGame() {
 
     }
 
@@ -30,7 +37,7 @@ public class WebSocketServer {
 
     private void initLayout() {
         //包装好的world需要实现toString方法
-        if(initWorld != null) {
+        if (initWorld != null) {
             sendMessage(initWorld.toString());
         }
     }
@@ -47,25 +54,54 @@ public class WebSocketServer {
     }
 
     @OnMessage
-    public void onMessage(String message,Session session) throws IOException {
+    public void onMessage(String message, Session session) throws IOException {
         System.out.println("received  " + message);
-        if(message == null || message.length() == 0) throw  new IOException();
+        if (message == null || message.length() == 0) throw new IOException();
 
         if ("startGame".equals(message)) {
             startGame();
-        } else if("layoutMode".equalsIgnoreCase(message)) {
+        } else if ("layoutMode".equalsIgnoreCase(message)) {
             endGame();
             initLayout();
-        } else if(message.startsWith("lay")){
+        } else if (message.startsWith("add")) {
             String[] messages = message.split(" ");
-//            initWorld.add();
+            String type = messages[1];
+            int id = Integer.parseInt(messages[2]);
+            int x = Integer.parseInt(messages[3]);
+            int y = Integer.parseInt(messages[4]);
+            Class<?> objectType = null;
+            try {
+                objectType = Class.forName("Gizmo" + type);
+                Constructor<?> constructor = objectType.getConstructor(Integer.class, Integer.class, Integer.class);
+                GizmoObject object = (GizmoObject) constructor.newInstance(id, x, y);
+                initWorld.add(object);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        } else if (message.startsWith("delete")) {
+            String[] messages = message.split(" ");
+            int id = Integer.parseInt(messages[2]);
+            initWorld.delete(id);
+        } else if (message.startsWith("rotate")) {
+            String[] messages = message.split(" ");
+            int id = Integer.parseInt(messages[2]);
+            GizmoObject object = initWorld.get(id);
+            object.rotate();
+        } else if (message.startsWith("magnify")) {
+            String[] messages = message.split(" ");
+            int id = Integer.parseInt(messages[2]);
+            GizmoObject object = initWorld.get(id);
+            object.magnify();
+        } else if (message.startsWith("shrink")) {
+            String[] messages = message.split(" ");
+            int id = Integer.parseInt(messages[2]);
+            GizmoObject object = initWorld.get(id);
+            object.shrink();
+        } else {
+            throw new MessageException("websocket信息处理错误");
         }
-//        else {
-//            throw new IOException();
-//        }
     }
-
-
 
 
     @OnError
