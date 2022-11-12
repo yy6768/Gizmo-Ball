@@ -164,7 +164,7 @@ toolbar和switchModeBar的实现
 
 
 
-### 提交5
+### 提交6
 
 #### Issue
 
@@ -191,3 +191,79 @@ toolbar和switchModeBar的实现
 
 
 
+## 提交7
+
+#### Issue
+
+接口问题突出
+
+现在指定好websocket和物理系统中的接口
+
+GizmoManager(原来所说的world需要实现以下接口)
+
+- add(Object e) 创建一个新的组件并且添加进去
+- delete（Integer id)根据id删除
+- List\<Object> getAll() 获取全部的组件
+- Object get(int id) 获得组件
+
+
+
+GizmoObject (对象类)
+
+- 构造函数（Integer Id, Double x, Double y)
+
+- setPosition(Double x, Double y)
+- setType(String type)//这个不确定
+- rotate() //旋转
+- magnify()//放大
+- shrink()//缩小
+
+- toString()
+
+  返回的字符串每个属性使用#分割
+
+  - 对于小球而言
+
+    Ball#{id}#{x}#{y}#{size}#{vx}#{vy}
+
+    x是小球的圆心横坐标
+
+    y是小球的圆心纵坐标  
+
+    vx,vy就是二维向量的速度
+
+    
+
+  - 对于正方体而言
+
+    Rectangle#{id}#{x}#{y}#{size}
+
+    x是正方体的左上角横坐标
+
+    y是正方体的左下角纵坐标	
+
+  - 对于三角型而言
+
+    Triangle#{id}#{x}#{y}#{size}#{rotate}
+
+    x是三角形的左上角横坐标
+
+    y是三角形的左下角纵坐标	
+
+    rotate = 0 表示 直角点位于左上，1表示右上，2表示右下，3表示左下
+
+  - 对于球体而言
+
+    Circle#{id}#{x}#{y}#{size}
+
+    x是球的圆心横坐标
+
+    y是球的圆心纵坐标  
+
+    
+
+    
+
+    size只有两种大和小
+
+    

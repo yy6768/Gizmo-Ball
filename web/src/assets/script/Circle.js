@@ -7,10 +7,9 @@ export class Circle extends BallObject{
      * @param {横坐标} r 
      * @param {纵坐标} c 
      */
-    constructor(gameMap, id, r, c){
+    constructor(gameMap, r, c){
         super();
         this.gameMap = gameMap;
-        this.id = id;
         this.r = r;
         this.c = c;
 

@@ -5,6 +5,7 @@ export default{
         socket:null,
         gameMap:null,
         gameObject:null,
+        operation:'',
     },
     getters: {
 

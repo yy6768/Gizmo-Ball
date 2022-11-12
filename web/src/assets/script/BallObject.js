@@ -1,11 +1,19 @@
+
+
 //所有渲染对象
-const BALL_OBJECTS =[]
+const BALL_OBJECTS =[];
+//对象的id
+var base_id = 0;
+
 // 基类
 export class BallObject{
     constructor() {
         BALL_OBJECTS.push(this);
         this.timedelta = 0
         this.has_called_start = false;//是否已经执行过
+        this.id = base_id;
+        base_id++;
+        console.log(base_id) 
     }
     // 只执行一次
     start() {
