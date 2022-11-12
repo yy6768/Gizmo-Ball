@@ -35,9 +35,10 @@ export class GameMap extends BallObject {
       2、创建对象
       3、向后端发送消息
     */
-    add(p){
+    operation(p){
         let type = this.store.state.layout.gameObject;
         // console.log(type);
+        let id = 0;
         if(type === 'ball'){
             //球体只能有一个
             if(this.ball !== null) {
@@ -45,12 +46,42 @@ export class GameMap extends BallObject {
                 this.ball.destroy();
             }
             this.ball = new Ball(this,p[0],p[1]);
+            id = this.ball.id;
         } else if(type === 'circle'){
-            let id = this.circles.length;
-            this.circles.push(new Circle(this,id,p[0],p[1]));
+            let circle = new Circle(this,p[0],p[1]);
+            this.circles.push(circle);
+            id = circle.id;
+        } else if(type === 'blackhole'){
+            //TODO(黑洞待实现)
+        } else if(type === 'rectangle') {
+            //TODO(方形待实现)
+        } else if(type === 'triangle'){
+            //TODO(三角型待实现)
+        } else if(type === 'straightPipe'){
+            //TODO(直管道待实现)
+        } else if(type === 'bendPipe'){
+            //TODO(弯管道待实现)
+        } else if(type === 'click'){
+            //TODO(选中物体)
+        } else if(type === null){
+            //此时应该是旋转操作或者是放大缩小或者删除
+            let operation = this.store.state.layout.operation;
+            if(operation === 'rotate'){
+                //TODO(旋转)
+            } else if(operation === 'delete'){
+                //TODO(删除)
+            } else if(operation === 'magnify') {
+                //TODO(放大)
+            } else if(operation === 'shrink') {
+                //TODO(缩小)
+            } else {
+                console.log("wrong operation")
+            }
+        } else {
+            console.log("wrong type");
         }
- 
-        this.store.state.layout.socket.send("add "+ type + " " + p[0] + " " + p[1]);
+        
+        this.store.state.layout.socket.send("add "+ type + " " + id + " " + p[0] + " " + p[1]);
     }
 
 
@@ -58,10 +89,9 @@ export class GameMap extends BallObject {
     //绑定事件
     add_listening_events(){ 
         if(this.store.state.layout.status === 'layout'){ //游玩模式绑定点击事件
-           
             this.ctx.canvas.addEventListener("click",e =>{
                 let p = this.getEventPosition(e);
-                this.add(p);
+                this.operation(p);
             });
         } 
     }
