@@ -262,8 +262,28 @@ GizmoObject (对象类)
 
     
 
-    
-
     size只有两种大和小
 
-    
+    位置之后会改成double
+
+    接口已经设计为double
+
+
+
+#### Work
+
+1. 前端Map发送信息大改，现在包含了更多信息，例如组件id，位置等
+2. 前端基类添加id
+3. 前端Map.js add函数完善框架
+4. 后端WebSocket完善
+5. physicsInterface大改，描述如上
+
+#### Description
+
+1. 主要更改了Ball.js、GameMap.js
+2. 后端WebSocket大改onMessage
+3. 后端物理接口重构，详细查看physicsInterface
+
+#### Test
+
+通过了id的测试
