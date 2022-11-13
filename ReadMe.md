@@ -287,3 +287,29 @@ GizmoObject (对象类)
 #### Test
 
 通过了id的测试
+
+
+
+### 提交8
+
+#### Issue
+
+physics组件的实现
+
+#### Work
+
+1. 实现了整个physics
+
+#### Description
+
+更新：
+
+1. GizmoBall.java
+2. GizmoRectangle
+3. GizmoTriangle
+4. WorldObject
+
+#### Test
+
+在Swing组件中完成了测试
+
