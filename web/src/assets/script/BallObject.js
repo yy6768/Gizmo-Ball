@@ -13,7 +13,7 @@ export class BallObject{
         this.has_called_start = false;//是否已经执行过
         this.id = base_id;
         base_id++;
-        console.log(base_id) 
+         
     }
     // 只执行一次
     start() {
