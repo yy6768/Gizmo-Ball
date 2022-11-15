@@ -313,3 +313,46 @@ physics组件的实现
 
 在Swing组件中完成了测试
 
+
+
+### 提交9
+
+#### Issue
+
+
+
+#### Work
+
+1. physics组件和websocket的通信（通过反射）
+2. 前端多个组件实现
+3. 前端store的icon模块
+4. 挡板的键盘事件绑定
+5. 前端组件是否重叠的判断
+6. 前端组件通过鼠标快速判断组件id
+
+#### Description
+
+更新
+
+1. GizmoBall.java
+2. GizmoRectangle.java
+3. GizmoTriangle.java
+4. WebSocket.java
+5. GameMap.vue
+6. GameMap.js
+7. Ball.js
+
+
+
+新增
+
+1. StraightPipe.js
+2. BendPipe.js
+3. Baffle.js
+
+#### Test
+
+1. 后端WebSocket完成测试
+2. 前端Baffle完成动画测试
+3. 新增的组件都完成了显示和布局的测试
+
