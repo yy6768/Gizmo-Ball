@@ -18,7 +18,8 @@ export class Ball extends BallObject{
         this.velocity = [0,0];
 
         this.image = new Image();
-        this.image.src = "https://missuo.ru/file/e5ae3779a66b45cab584f.png";
+        
+        this.image.src = this.gameMap.store.state.icon.ball_icon;
     }
 
     /**
@@ -30,13 +31,21 @@ export class Ball extends BallObject{
         this.render()
     }
 
+    magnify(){
+        this.size = 2;
+    }
+
+    shrink(){
+        this.size = 1;
+    }
+
     /**
      * 绘制函数
      */
     render(){
         const ctx = this.gameMap.ctx;
         const L = this.gameMap.L;
-        ctx.drawImage(this.image,this.c * L ,this.r * L, L * this.size, L * this.size);
+        ctx.drawImage(this.image, this.c * L, this.r * L, L * this.size, L * this.size);
     }
 
     

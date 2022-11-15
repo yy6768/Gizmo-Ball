@@ -4,10 +4,10 @@ export class Circle extends BallObject{
     /**
      * 构造函数创建新的圆形障碍物
      * @param {游戏地图} gameMap 
-     * @param {横坐标} r 
-     * @param {纵坐标} c 
+     * @param {横坐标} c 
+     * @param {纵坐标} r 
      */
-    constructor(gameMap, r, c){
+    constructor(gameMap, c, r){
         super();
         this.gameMap = gameMap;
         this.r = r;
@@ -16,13 +16,15 @@ export class Circle extends BallObject{
         this.size = 1;
         
         this.image = new Image();
-        this.image.src = "https://s1.ax1x.com/2022/11/07/xvLZu9.png";
+        this.image.src = this.gameMap.store.state.icon.circle_icon;
     }
 
+    //初始化函数
     start(){
 
     }
 
+    //更新函数
     update(){
         this.render();
     }

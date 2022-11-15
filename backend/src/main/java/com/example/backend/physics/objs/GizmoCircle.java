@@ -22,10 +22,10 @@ public class GizmoCircle extends WorldObjects{
     Color color = Color.PINK;
 
     //在我的理解中，反射得到的构造函数是这个
-    public GizmoCircle(Integer id, Integer x, Integer y){
+    public GizmoCircle(Integer id, Float x, Float y){
         this.objectId = id;
-        this.worldX = x.floatValue();
-        this.worldY = y.floatValue();
+        this.worldX = x;
+        this.worldY = y;
         this.r = 1;
         initBallInWorld();
     }

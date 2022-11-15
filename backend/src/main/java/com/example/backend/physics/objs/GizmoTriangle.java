@@ -24,10 +24,10 @@ public class GizmoTriangle extends WorldObjects {
     RotateStatus rotateStatus = RotateStatus.LEFTUP;
 
     //在我的理解中，反射得到的构造函数是这个
-    public GizmoTriangle(Integer id, Integer x, Integer y){
+    public GizmoTriangle(Integer id, Float x, Float y){
         this.objectId = id;
-        this.worldX = x.floatValue();
-        this.worldY = y.floatValue();
+        this.worldX = x;
+        this.worldY = y;
         this.block_width = 1;
         this.block_height = 1;
         initTriangleInWorld(worldX,worldY,block_width,block_height);

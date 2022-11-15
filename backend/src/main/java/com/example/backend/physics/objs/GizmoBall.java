@@ -20,10 +20,10 @@ public class GizmoBall extends WorldObjects{
     Color color = Color.cyan;
 
     //在我的理解中，反射得到的构造函数是这个
-    public GizmoBall(Integer id, Integer x, Integer y){
+    public GizmoBall(Integer id, Float x, Float y){
         this.objectId = id;
-        this.worldX = x.floatValue();
-        this.worldY = y.floatValue();
+        this.worldX = x;
+        this.worldY = y;
         this.r = 1;
         initBallInWorld();
     }

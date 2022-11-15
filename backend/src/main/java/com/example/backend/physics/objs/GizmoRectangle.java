@@ -20,10 +20,10 @@ public class GizmoRectangle extends WorldObjects{
     float block_height;
 
     //在我的理解中，反射得到的构造函数是这个
-    public GizmoRectangle(Integer id, Integer x, Integer y){
+    public GizmoRectangle(Integer id, Float x, Float y){
         this.objectId = id;
-        this.worldX = x.floatValue();
-        this.worldY = y.floatValue();
+        this.worldX = x;
+        this.worldY = y;
         this.block_width = 1;
         this.block_height = 1;
         initRectangleInWorld(worldX,worldY,block_width,block_height);

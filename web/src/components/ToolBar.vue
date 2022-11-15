@@ -10,8 +10,7 @@
         <el-radio v-model="selected" label="ball">
           <el-image style="width: 60px; height: 60px" src="https://s1.ax1x.com/2022/11/07/xv5hdS.png" fit="contain"></el-image>
         </el-radio>
-      </div>
-      
+      </div>   
     </div>
     <div class="colBar">
       <div class="rowBar">

@@ -19,7 +19,7 @@ export default {
     this.canvas = document.getElementById("canvas");
     let cxt = this.canvas.getContext("2d");
     this.$store.commit("updateMap",new GameMap(cxt,this.parent,this.$store));
-    this.$store.commit("updateGameObject","ball");
+    this.$store.commit("updateGameObject","Ball");
   }
 }
 </script>
@@ -28,7 +28,7 @@ export default {
 div.gamemap{
     height: 95vh;
     width:100%;
-    background-color:green;
+    
     display: flex;
     justify-content: center;
 }
