@@ -17,9 +17,9 @@
         </content-field>
       </div>
       <div class="row">
-        <div class="game-text">
-          <div class="game-text-ceil">Gizmo Ball</div>
-        </div>
+        <content-field>
+          <game-design-bar></game-design-bar>
+        </content-field>
       </div>
     </div>
   </div>
@@ -30,8 +30,10 @@ import GameMap from '@/components/GameMap.vue';
 import ContentField from '@/components/ContentField.vue'
 import ToolBar from '@/components/ToolBar.vue';
 import SwitchModeBar from '@/components/SwitchModeBar.vue';
+import GameDesignBar from '@/components/GameDesignBar.vue';
+
 export default {
-  components:{ GameMap ,ContentField, ToolBar, SwitchModeBar},
+  components:{ GameMap ,ContentField, ToolBar, SwitchModeBar, GameDesignBar},
   data(){
     return{
       socket:null,
