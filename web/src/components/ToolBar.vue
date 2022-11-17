@@ -2,101 +2,93 @@
   <div class="toolbar">
     <div class="colBar">
       <div class="rowBar">
-        <el-radio v-model="selected" label="hand">
-          <el-image src="https://s1.ax1x.com/2022/11/07/xvqKSg.png" style="width: 60px; height: 60px" fit="contain"></el-image>
+        <el-radio v-model="selected" label="click" :disabled="mode==='game'">
+          <el-image :src="img.click_icon" fit="contain"></el-image>
         </el-radio>
       </div>
       <div class="rowBar">
-        <el-radio v-model="selected" label="ball">
-          <el-image style="width: 60px; height: 60px" src="https://s1.ax1x.com/2022/11/07/xv5hdS.png" fit="contain"></el-image>
+        <el-radio v-model="selected" label="Ball" :disabled="mode==='game'">
+          <el-image :src="img.ball_icon" fit="contain"></el-image>
         </el-radio>
-      </div>   
+      </div>
+      
     </div>
     <div class="colBar">
       <div class="rowBar">
-        <el-radio v-model="selected" label="blackhole">
-          <el-image src="https://missuo.ru/file/07a1fd1db96353e1a7c62.png" style="width: 60px; height: 60px" fit="contain"></el-image>
+        <el-radio v-model="selected" label="Blackhole" :disabled="mode==='game'">
+          <el-image :src="img.black_hole_icon" fit="contain"></el-image>
         </el-radio>
       </div>
       <div class="rowBar">
-        <el-radio v-model="selected" label="tringle">
-          <el-image src="https://missuo.ru/file/5d1d1d451122e8425a8ff.png" style="width: 60px; height: 60px" fit="contain"></el-image>
-        </el-radio>
-      </div>
-    </div>
-    <div class="colBar">
-      <div class="rowBar">
-        <el-radio v-model="selected" label="circle">
-          <el-image src="https://s1.ax1x.com/2022/11/07/xvLZu9.png" style="width: 60px; height: 60px" fit="contain"></el-image>
-        </el-radio>
-      </div>
-      <div class="rowBar">
-        <el-radio v-model="selected" label="square">
-          <el-image src="https://missuo.ru/file/ac4ebd3bfd5f4e9eec85d.png" style="width: 60px; height: 60px" fit="contain"></el-image>
+        <el-radio v-model="selected" label="Triangle" :disabled="mode==='game'">
+          <el-image :src="img.triangle_icon" fit="contain"></el-image>
         </el-radio>
       </div>
     </div>
     <div class="colBar">
       <div class="rowBar">
-        <el-radio v-model="selected" label="rail">
-          <el-image src="https://missuo.ru/file/5efd7b38b13b2adb5083b.png" style="width: 60px; height: 60px" fit="contain"></el-image>
+        <el-radio v-model="selected" label="Circle" :disabled="mode==='game'">
+          <el-image :src="img.circle_icon" fit="contain"></el-image>
         </el-radio>
       </div>
       <div class="rowBar">
-        <el-radio v-model="selected" label="corner">
-          <el-image src="https://missuo.ru/file/e2d816f750111fc31571e.png" style="width: 60px; height: 60px" fit="contain"></el-image>
+        <el-radio v-model="selected" label="Rectangle" :disabled="mode==='game'">
+          <el-image :src="img.rectangle_icon" fit="contain"></el-image>
         </el-radio>
       </div>
     </div>
     <div class="colBar">
       <div class="rowBar">
-        <el-radio v-model="selected" label="left">
-          <el-image src="https://missuo.ru/file/cca835b48bcaae3f8ea0f.png" style="width: 60px; height: 60px" fit="contain"></el-image>
+        <el-radio v-model="selected" label="StraightPipe" :disabled="mode==='game'">
+          <el-image :src="img.straight_pipe_icon" fit="contain"></el-image>
         </el-radio>
       </div>
       <div class="rowBar">
-        <el-radio v-model="selected" label="right">
-          <el-image src="https://missuo.ru/file/cca835b48bcaae3f8ea0f.png" style="width: 60px; height: 60px" fit="contain"></el-image>
+        <el-radio v-model="selected" label="BendPipe" :disabled="mode==='game'">
+          <el-image :src="img.bend_pipe_icon" fit="contain"></el-image>
         </el-radio>
       </div>
     </div>
-    <div class="buttonLine">
-      <el-button icon="el-icon-refresh-right" circle @click="rotate"></el-button>
-      <el-button icon="el-icon-close" circle @click="close"></el-button>
-      <el-button icon="el-icon-plus" circle @click="plus"></el-button>
-      <el-button icon="el-icon-minus" circle @click="minus"></el-button>
+    <div class="colBar">
+      <div class="rowBar">
+        <el-radio v-model="selected" label="LeftBaffle" :disabled="mode==='game'">
+          <el-image :src="img.baffle_icon" fit="contain"></el-image>
+        </el-radio>
+      </div>
+      <div class="rowBar">
+        <el-radio v-model="selected" label="RightBaffle" :disabled="mode==='game'">
+          <el-image :src="img.baffle_icon" fit="contain"></el-image>
+        </el-radio>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import icon from '../store/icon'
 export default {
   data(){
     return{
-      selected:''
+      selected:null,
+      img:icon.state,
+    }
+  },
+  watch:{
+    selected:{
+      handler(newValue){
+        this.$store.commit('updateGameObject', newValue);
+      }
+    },
+    
+  },
+  computed:{
+    mode(){
+      return this.$store.state.layout.status
     }
   },
   methods:{
-    // 贴图组件旋转函数
-    rotate(){
-      console.log("img rotate")
-    },
 
-    // 贴图组件删除函数
-    close(){
-
-    },
-
-    // 贴图组件放大函数
-    plus(){
-
-    },
-
-    // 贴图组件缩小函数
-    minus(){
-
-    },
-  }
+  },
 }
 </script>
 
@@ -105,24 +97,12 @@ div.toolbar{
     height: 60vh;
 }
 div.colBar{
-  margin-left: 100px;
-  margin-top: 30px;
+  margin-left: 7vh;
+  margin-top: 3vh;
   display: flex;
 }
 div.rowBar{
-  margin-right: 150px;
-  margin-bottom: 30px;
-}
-div.buttonLine{
-  display: flex;
-  margin-top: 80px;
-  margin-left: 70px;
-}
-.el-button{
-  height: 80px;
-  width: 80px;
-  font-size: 50px;
-  align-content: center;
-  margin-right: 30px;
+  margin-right: 12vh;
+  margin-bottom: 2.5vh;
 }
 </style>
