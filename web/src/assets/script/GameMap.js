@@ -1,13 +1,15 @@
-import { BallObject } from "./BallObject";
+import { GimzoObject } from "./GimzoObject";
 import { Ball } from './Ball'
 import { Circle } from "./Circle";
 import { Baffle } from "./Baffle";
 import { StraightPipe } from "./StraightPipe";
 import { Rectangle } from "./Rectangle";
 import { Triangle } from "./Triangle";
+import { Blackhole } from "./Blackhole";
+import { BendPipe } from "./BendPipe";
 
 
-export class GameMap extends BallObject {
+export class GameMap extends GimzoObject {
     constructor(ctx, parent, store) {
         super();
 
@@ -17,26 +19,15 @@ export class GameMap extends BallObject {
         this.L = 0; //块的大小
         this.rows = 20;
         this.cols = 20;
-        //小球、左挡板、右挡板只能有一个
+
         this.ball = null;
         this.leftBaffle = null;
         this.rigthBaffle = null;
-        //存放所有组件
-        this.records = [];
         //记录每个格子放的对象id
         this.components = {};
-
     }
 
     start(){
-        //初始化站位格子
-        for(let i = 0; i < this.rows; i++){
-            let tmp = []
-            for(let j = 0; j < this.cols; j++){
-                tmp.push(false);
-            }
-            this.records.push(tmp);
-        }
         this.add_listening_events();
     }
 
@@ -51,101 +42,87 @@ export class GameMap extends BallObject {
 
     //检查是否有物体重合
     check_position(p){
-        let x = p[0];
-        let y = p[1];
-        if(x >= this.rows || x < 0 || y < 0 || y >= this.cols){
-            return false;
-        }
-        return !this.records[x][y];
+        return this.components[p] === undefined;
     }
 
     //设置物体已经重合
-    set_position(p, rec){
-        let x = p[0];
-        let y = p[1];
-        this.records[x][y] = rec;
+    set_position(p, id){
+       this.components[p] = id;
     }
-
+    
     /*
       在地图添加组件
       1、判别类别
-      2、判别对象是否唯一性
-      3、创建对象
-      4、向后端发送消息
+      2、创建对象
+      3、向后端发送消息
     */
     add(p){
         let type = this.store.state.layout.gameObject;
-        // console.log(type);
         let id = 0;
+        // console.log(type);
         if(type === 'Ball'){
             //球体只能有一个
             if(this.ball !== null) {
-                this.store.state.layout.socket.send("delete "+ type + " " + this.ball.id);
-                let old_p = [this.ball.c, this.ball.r];
-                this.set_position(old_p,false);
                 this.ball.destroy();
             }
             this.ball = new Ball(this, p[0], p[1]);
             id = this.ball.id;
         } else if(type === 'Circle'){
             let circle = new Circle(this, p[0], p[1]);
-            // this.circles.push(circle);
             id = circle.id;
         } else if(type === 'Blackhole'){
-            //TODO(黑洞待实现)
+            let blackhole = new Blackhole(this, p[0], p[1]);
+            id = blackhole.id;
         } else if(type === 'Rectangle') {
             let rectangle = new Rectangle(this, p[0], p[1]);
             id = rectangle.id
         } else if(type === 'Triangle'){
-            //TODO(三角型待实现)
             let triangle = new Triangle(this, p[0], p[1]);
             id = triangle.id
         } else if(type === 'StraightPipe'){
             let pipe = new StraightPipe(this,p[0],p[1]);
             id = pipe.id;
         } else if(type === 'BendPipe'){
-            //TODO(弯管道待实现)
+            let bendPipe = new BendPipe(this, p[0], p[1]);
+            id = bendPipe.id;
         } else if(type ==='LeftBaffle'){
             if(this.leftBaffle !== null){
-                this.store.state.layout.socket.send("delete Baffle " + this.leftBaffle.id);
-                let old_p = [this.leftBaffle.c,this.leftBaffle.r];
-                this.set_position(old_p ,false);
                 this.leftBaffle.destroy();
             }
-            p[0] = this.cols / 4;
             this.leftBaffle = new Baffle(this, p[0], p[1]);
             id = this.leftBaffle.id;
         } else if(type ==='RightBaffle'){
             if(this.rigthBaffle !== null){
-                this.store.state.layout.socket.send("delete Baffle " + this.rigthBaffle.id);
-                let old_p = [this.leftBaffle.c,this.leftBaffle.r];
-                this.set_position(old_p,false);
                 this.rigthBaffle.destroy();
             }
-            p[0] = this.cols/ 4 * 3 ;
+           
             this.rigthBaffle = new Baffle(this, p[0], p[1]);
             id = this.rigthBaffle.id;
-        } else if(type === 'click'){
-            //TODO(选中物体)
         } else {
             console.log("wrong type");
         }
-        
-        this.set_position(p, true);
-        this.components[p] = id;
-        this.store.state.layout.socket.send("add "+ type + " " + id + " " + p[0] + " " + p[1]);
+        this.store.state.layout.socket.send("add "+ type + " " + id +" "+ p[0] + " " + p[1]);
     }
 
-    
 
     //绑定事件
     add_listening_events(){ 
         if(this.store.state.layout.status === 'layout'){ //游玩模式绑定点击事件
+           
             this.ctx.canvas.addEventListener("click",e =>{
                 let p = this.getEventPosition(e);
-                if(this.store.state.layout.gameObject !== null && this.check_position(p)){
+                let type = this.store.state.layout.gameObject;
+                if(type === 'LeftBaffle') {
+                    p[0] = this.cols / 4;
+                } else if(type === 'RightBaffle'){
+                    p[0] = this.cols/ 4 * 3 ;
+                }
+                if(this.store.state.layout.gameObject !== "click" && this.check_position(p)){
                     this.add(p);
-                } 
+                } else if(this.store.state.layout.gameObject === 'click'){
+                    console.log("click", p);
+                    this.store.commit("updateObject", this.components[p]);
+                }
             });
         } 
     }
@@ -155,6 +132,7 @@ export class GameMap extends BallObject {
         this.ctx.canvas.width = this.L * this.cols;
         this.ctx.canvas.height = this.L * this.rows;
     }
+
 
     next_step(){
         //TODO(游戏进行时每一步变化)

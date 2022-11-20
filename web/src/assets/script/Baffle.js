@@ -1,6 +1,7 @@
-import { BallObject } from "./BallObject";
+import { Cell } from "./Cell";
+import { GimzoObject } from "./GimzoObject";
 
-export class Baffle extends BallObject{
+export class Baffle extends GimzoObject{
 
     constructor(gameMap, c, r){
         super();
@@ -16,6 +17,11 @@ export class Baffle extends BallObject{
         this.dx = [1, -1];
         this.velocity = 10.0;
 
+
+        this.cells = [];
+        this.cells.push(new Cell(r ,c));
+        this.cells.push(new Cell(r, c + 1));
+
         this.image = new Image();
         this.image.src = this.gameMap.store.state.icon.baffle_icon;
     }
@@ -24,8 +30,7 @@ export class Baffle extends BallObject{
     add_listening_events(){
         const store = this.gameMap.store;
         const canvas = this.gameMap.ctx.canvas;
-        
-        
+            
         if(store.state.layout.status === 'playing'){
             canvas.addEventListener("keydown", e=>{
             console.log(e);
@@ -48,6 +53,9 @@ export class Baffle extends BallObject{
     }
 
     start(){
+        for(let cell of this.cells){
+            this.gameMap.set_position([cell.c,cell.r], this);
+        }
         this.add_listening_events();
     }
 
@@ -67,6 +75,13 @@ export class Baffle extends BallObject{
                     this.c += this.velocity * this.timedelta;
             }
         });
+
+        for(let cell of this.cells){
+            this.gameMap.set_position([cell.c,cell.r], undefined);
+        }
+
+        let socket = this.gameMap.store.state.layout.socket;
+        socket.send("delete Baffle " + this.id);
     }
 
     render(){

@@ -1,6 +1,7 @@
-import { BallObject } from "./BallObject";
+import { Cell } from "./Cell";
+import { GimzoObject } from "./GimzoObject";
 
-export class Circle extends BallObject{
+export class Circle extends GimzoObject{
     /**
      * 构造函数创建新的圆形障碍物
      * @param {游戏地图} gameMap 
@@ -14,6 +15,9 @@ export class Circle extends BallObject{
         this.c = c;
 
         this.size = 1;
+
+        this.cells = [];
+        this.cells.push(new Cell(r, c));
         
         this.image = new Image();
         this.image.src = this.gameMap.store.state.icon.circle_icon;
@@ -21,12 +25,36 @@ export class Circle extends BallObject{
 
     //初始化函数
     start(){
-
+        for(let cell of this.cells){
+            this.gameMap.set_position([cell.c,cell.r], this);
+        }
     }
 
     //更新函数
     update(){
         this.render();
+    }
+
+    magnify(){
+        //TODO检查是否有格子占用并且占用
+        this.size = 2;
+    }
+
+    shrink(){
+        //释放格子
+        console.log("shrink");
+        this.size = 1;
+    }
+
+
+    //删除前触发的函数
+    on_destroy(){
+        for(let cell of this.cells){
+            this.gameMap.set_position([cell.c,cell.r], undefined);
+        }
+
+        let socket = this.gameMap.store.state.layout.socket;
+        socket.send("delete Circle " + this.id);
     }
 
     /**

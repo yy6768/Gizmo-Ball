@@ -5,7 +5,7 @@ export default{
         socket:null,
         gameMap:null,
         gameObject:null,
-        operation:'',
+        object:undefined,
     },
     getters: {
 
@@ -24,6 +24,9 @@ export default{
         updateGameObject(state, gameObject) {
             state.gameObject = gameObject;
         },
+        updateObject(state, object){
+            state.object = object;
+        }
     },
     actions: {
 
