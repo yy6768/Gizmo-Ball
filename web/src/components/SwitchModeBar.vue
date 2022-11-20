@@ -31,18 +31,35 @@ export default {
     enlarge(){
       if(this.$store.state.status === 'game') return;
       console.log("enlarge")
+      let object = this.$store.state.layout.object;
+      console.log(object);
+      if(object != null){
+        this.$store.state.layout.object.magnify();
+      }
     },
     shrink(){
       if(this.$store.state.status === 'game') return;
       console.log("shrink")
+      let object = this.$store.state.layout.object;
+      if (object != null) {
+        this.$store.state.layout.object.shrink();
+      }
     },
     rotate(){
       if(this.$store.state.status === 'game') return;
       console.log("rotate")
+      let object = this.$store.state.layout.object;
+      if (object != null) {
+        this.$store.state.layout.object.rotate();
+      }
     },
     remove(){
       if(this.$store.state.status === 'game') return;
       console.log("remove")
+      let object = this.$store.state.layout.object;
+      if (object != null) {
+        this.$store.state.layout.object.destroy();
+      }
     }
   },
 }
