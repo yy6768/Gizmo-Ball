@@ -76,7 +76,7 @@ export default {
   watch:{
     selected:{
       handler(newValue){
-        this.$store.commit('updateGameObject', newValue);
+        this.$store.commit('updateObjectType', newValue);
       }
     },
     

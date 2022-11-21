@@ -1,24 +1,13 @@
-import { Cell } from "./Cell";
-import { GimzoObject } from "./GimzoObject";
+import { GimzoComponent } from "./GimzoComponent";
 
-export class BendPipe extends GimzoObject{
+export class BendPipe extends GimzoComponent{
     constructor(gameMap, c, r){
-        super();
-        this.gameMap = gameMap;
-        this.c = c;
-        this.r = r;
-        
-        this.cells = [];
-        this.cells.push(new Cell(r, c));
-
-        this.image = new Image();
-        this.image.src = this.gameMap.store.state.icon.bend_pipe_icon;
-    }
-
-    start(){
-        for(let cell of this.cells){
-            this.gameMap.set_position([cell.c,cell.r], this);
-        }
+        super(gameMap, c , r);
+        // this.image = new Image();
+        // this.image.src = this.gameMap.store.state.icon.bend_pipe_icon;
+        this.angle = 0;
+        this.dx = [0, 0, 1, 1];
+        this.dy = [0, 1, 1, 0];
     }
 
     update(){
@@ -27,22 +16,22 @@ export class BendPipe extends GimzoObject{
 
     //旋转
     rotate(){
-        //旋转
-    }
-
-    on_destroy(){
-        for(let cell of this.cells){
-            this.gameMap.set_position([cell.c,cell.r], undefined);
-        }
-
+        this.angle = (this.angle + 1) % 4;
         let socket = this.gameMap.store.state.layout.socket;
-        socket.send("delete BendPipe " + this.id);
+        socket.send("rotate " + this.id);
     }
 
     render(){
         const ctx = this.gameMap.ctx;
         const L = this.gameMap.L;
-        ctx.drawImage(this.image,this.c * L, this.r * L, L , L);
+        // ctx.drawImage(this.image,this.c * L, this.r * L, L , L);
+        ctx.beginPath();
+        const x = (this.c + this.dx[this.angle]) * L;
+        const y = (this.r + this.dy[this.angle]) * L;
+        const ba = -this.angle * Math.PI / 2;
+        const ea = (1 - this.angle) * Math.PI / 2;
+        ctx.arc(x, y, L, ba, ea);
+        ctx.stroke();
     }
 
 }

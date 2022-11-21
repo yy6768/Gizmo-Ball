@@ -3,6 +3,8 @@ package com.example.backend.physics;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 
+import com.example.backend.physics.WorldConstant;
+
 // Pixel对应JPanel,引入JPanel是为了方便测试
 // 实际使用中Mile才是物理引擎中的单位
 // 此类中成员都是静态成员，主要是用于给其他类调用
@@ -10,29 +12,26 @@ import org.jbox2d.dynamics.World;
 
 public class WorldPlace {
     public static World world = new World(new Vec2(0f,-10f));
-    public static final int WIDTH = 800;
-    public static final int HIGHT = 800;
-    public static final float RATE = 10f;
-    public static final float TIME_STEP = 1f/30f;
+
 
     public static int mile2Pixel(float mile){
-        return (int)(mile*RATE);
+        return (int)(mile*WorldConstant.RATE);
     }
 
     public static float pixel2Mile(int pixel){
-        return pixel/RATE;
+        return pixel/WorldConstant.RATE;
     }
 
     public static int toPixelHeight(float mile){
-        return HIGHT - (int) (mile*RATE);
+        return WorldConstant.HIGHT - (int) (mile*WorldConstant.RATE);
     }
 
     public static float pixel2Height(int height){
-        return (HIGHT - height)/RATE;
+        return (WorldConstant.HIGHT - height)/WorldConstant.RATE;
     }
 
     public static void step(){
-        world.step(TIME_STEP,6,6);
+        world.step(WorldConstant.TIME_STEP,6,6);
     }
 
 }

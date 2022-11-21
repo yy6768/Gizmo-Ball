@@ -1,5 +1,6 @@
 package com.example.backend.physics.testFiles;
 
+import com.example.backend.physics.WorldConstant;
 import com.example.backend.physics.WorldManager;
 import com.example.backend.physics.WorldPlace;
 
@@ -12,7 +13,7 @@ public class TestApp {
 
         JFrame frame = new JFrame("box1.0");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(WorldPlace.WIDTH,WorldPlace.HIGHT);
+        frame.setSize(WorldConstant.WIDTH,WorldConstant.HIGHT);
 
         MyPanel myPanel = new MyPanel();
         myPanel.setManager(worldManager);

@@ -30,10 +30,6 @@ public abstract class WorldObjects implements GizmoObject {
         return body.m_fixtureList.m_shape.m_type;
     }
 
-    @Override
-    public void setPosition(int x, int y){
-        body.setTransform(new Vec2(x,y), 0);
-    }
 
     @Override
     public void rotate(){
