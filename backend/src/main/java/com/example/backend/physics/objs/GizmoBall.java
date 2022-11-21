@@ -1,5 +1,6 @@
 package com.example.backend.physics.objs;
 
+import com.example.backend.physics.WorldConstant;
 import com.example.backend.physics.WorldPlace;
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.collision.shapes.Shape;
@@ -24,7 +25,7 @@ public class GizmoBall extends WorldObjects{
         this.objectId = id;
         this.worldX = x;
         this.worldY = y;
-        this.r = 1;
+        this.r = (float) (WorldConstant.LENGTH / 2.0);
         initBallInWorld();
     }
 
@@ -74,11 +75,11 @@ public class GizmoBall extends WorldObjects{
             Shape bodyShape = body.getFixtureList().getShape();
             if(bodyShape.getType() == ShapeType.CIRCLE){
                 bodyShape.setRadius(1);
-                this.r = 1;
+                this.r = (float) (WorldConstant.LENGTH / 2.0);
             }
 
         }
-
+        //???
         body.setAwake(true);
     }
 
@@ -88,11 +89,11 @@ public class GizmoBall extends WorldObjects{
             isSizeLarge = true;
             Shape bodyShape = body.getFixtureList().getShape();
             if(bodyShape.getType() == ShapeType.CIRCLE){
-                bodyShape.setRadius(2);
-                this.r = 2;
+                bodyShape.setRadius(WorldConstant.LENGTH);
+                this.r = WorldConstant.LENGTH;
             }
         }
-
+        //???
         body.setAwake(true);
     }
 

@@ -3,6 +3,7 @@ package com.example.backend.consumer;
 
 import com.example.backend.consumer.utils.Game;
 import com.example.backend.exception.MessageException;
+import com.example.backend.physics.WorldConstant;
 import com.example.backend.physics.WorldManager;
 import com.example.backend.physicsInterface.GizmoObject;
 import com.example.backend.physicsInterface.GizmoWorld;
@@ -26,12 +27,13 @@ public class WebSocketServer {
     // 每个链接用session维护
     private Session session = null;
 
-    private final Game game = null;
+    private Game game = null;
 
-    private final GizmoWorld worldManager = new WorldManager();
+    private final WorldManager worldManager = new WorldManager();
 
     private void startGame() {
-
+        game = new Game(worldManager);
+        game.start();
     }
 
     private void endGame() {
@@ -44,13 +46,13 @@ public class WebSocketServer {
     }
 
     @OnOpen
-    public void onOpen(Session session) throws IOException {
+    public void onOpen(Session session) {
         this.session = session;
         System.out.println("connected");
     }
 
     @OnClose
-    public void onClose(Session session) throws IOException {
+    public void onClose(Session session) {
         System.out.println("disconnected");
     }
 
@@ -68,8 +70,8 @@ public class WebSocketServer {
             String[] messages = message.split(" ");
             String type = messages[1];
             int id = Integer.parseInt(messages[2]);
-            float x = Float.parseFloat(messages[3]);
-            float y = Float.parseFloat(messages[4]);
+            float x = Float.parseFloat(messages[3]) * WorldConstant.LENGTH;
+            float y = Float.parseFloat(messages[4]) * WorldConstant.LENGTH;
             Class<?> objectType;
             try {
                 objectType = Class.forName("com.example.backend.physics.objs.Gizmo" + type);
@@ -82,26 +84,30 @@ public class WebSocketServer {
 
         } else if (message.startsWith("delete")) {
             String[] messages = message.split(" ");
-            int id = Integer.parseInt(messages[2]);
+            int id = Integer.parseInt(messages[1]);
             worldManager.delete(id);
         } else if (message.startsWith("rotate")) {
             String[] messages = message.split(" ");
-            int id = Integer.parseInt(messages[2]);
+            int id = Integer.parseInt(messages[1]);
             GizmoObject object = worldManager.get(id);
             object.rotate();
         } else if (message.startsWith("magnify")) {
             String[] messages = message.split(" ");
-            int id = Integer.parseInt(messages[2]);
+            int id = Integer.parseInt(messages[1]);
             GizmoObject object = worldManager.get(id);
             object.magnify();
         } else if (message.startsWith("shrink")) {
             String[] messages = message.split(" ");
-            int id = Integer.parseInt(messages[2]);
+            int id = Integer.parseInt(messages[1]);
             GizmoObject object = worldManager.get(id);
             object.shrink();
         } else {
             throw new MessageException("websocket信息处理错误");
         }
+//        for (GizmoObject object : worldManager.getAll()) {
+//            System.out.println(object.toString());
+//        }
+
     }
 
 

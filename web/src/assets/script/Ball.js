@@ -1,8 +1,5 @@
-import { Cell } from "./Cell";
-import { GimzoObject } from "./GimzoObject";
-
-
-export class Ball extends GimzoObject{
+import { GimzoShape } from "./GimzoShape";
+export class Ball extends GimzoShape{
     /**
      * 构造函数
      * @param {游戏地图 creator&信息专家} gameMap 
@@ -10,27 +7,15 @@ export class Ball extends GimzoObject{
      * @param {纵坐标} r 
      */
     constructor(gameMap,c, r){
-        super();
-        this.gameMap = gameMap;
-        this.c = c;
-        this.r = r;
+        super(gameMap, c, r);
         this.size = 1;
         //速度在x方向和y方向的分量
         this.velocity = [0,0];
 
         this.image = new Image();
-        
-        this.cells = [];
-        this.cells.push(new Cell(r,c));
-
         this.image.src = this.gameMap.store.state.icon.ball_icon;
     }
 
-    start(){
-        for(let cell of this.cells){
-            this.gameMap.set_position([cell.c,cell.r], this);
-        }
-    }
 
     /**
      * 更新函数
@@ -39,26 +24,6 @@ export class Ball extends GimzoObject{
      */
     update(){
         this.render()
-    }
-
-    magnify(){
-        //TODO检查是否有格子占用并且占用
-        this.size = 2;
-    }
-
-    shrink(){
-        //释放格子
-        console.log("shrink");
-        this.size = 1;
-    }
-
-    on_destroy(){
-        for(let cell of this.cells){
-            this.gameMap.set_position([cell.c,cell.r], undefined);
-        }
-
-        let socket = this.gameMap.store.state.layout.socket;
-        socket.send("delete Ball " + this.id);
     }
 
     /**

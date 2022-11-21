@@ -43,19 +43,6 @@ export class GimzoObject{
             }
         }
     }
-
-    shrink(){
-        //缩小
-    }
-
-    magnify(){
-        //放大
-    }
-
-    rotate(){
-        //旋转
-    }
-
 }
 // 上一个执行的时刻
 let last_timestamp;

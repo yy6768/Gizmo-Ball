@@ -1,7 +1,7 @@
 package com.example.backend.physics.testFiles;
 
 import com.example.backend.physics.WorldManager;
-import com.example.backend.physics.WorldPlace;
+import com.example.backend.physics.WorldConstant;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +15,7 @@ public class MyPanel extends JPanel implements Runnable{
     }
 
     public MyPanel(){
-        this.setSize(WorldPlace.WIDTH,WorldPlace.HIGHT);
+        this.setSize(WorldConstant.WIDTH,WorldConstant.HIGHT);
         this.setVisible(true);
         this.setBackground(Color.black);
     }

@@ -57,51 +57,45 @@ export class GameMap extends GimzoObject {
       3、向后端发送消息
     */
     add(p){
-        let type = this.store.state.layout.gameObject;
-        let id = 0;
+        let type = this.store.state.layout.objectType;
+        
+        let object = null;
         // console.log(type);
         if(type === 'Ball'){
             //球体只能有一个
             if(this.ball !== null) {
                 this.ball.destroy();
             }
-            this.ball = new Ball(this, p[0], p[1]);
-            id = this.ball.id;
+            object = this.ball = new Ball(this, p[0], p[1]);
         } else if(type === 'Circle'){
-            let circle = new Circle(this, p[0], p[1]);
-            id = circle.id;
+            object = new Circle(this, p[0], p[1]);
         } else if(type === 'Blackhole'){
-            let blackhole = new Blackhole(this, p[0], p[1]);
-            id = blackhole.id;
+            object = new Blackhole(this, p[0], p[1]);
         } else if(type === 'Rectangle') {
-            let rectangle = new Rectangle(this, p[0], p[1]);
-            id = rectangle.id
+            object = new Rectangle(this, p[0], p[1]);
         } else if(type === 'Triangle'){
-            let triangle = new Triangle(this, p[0], p[1]);
-            id = triangle.id
+            object = new Triangle(this, p[0], p[1]);
         } else if(type === 'StraightPipe'){
-            let pipe = new StraightPipe(this,p[0],p[1]);
-            id = pipe.id;
+            object = new StraightPipe(this,p[0],p[1]);
         } else if(type === 'BendPipe'){
-            let bendPipe = new BendPipe(this, p[0], p[1]);
-            id = bendPipe.id;
+            object = new BendPipe(this, p[0], p[1]);
         } else if(type ==='LeftBaffle'){
             if(this.leftBaffle !== null){
                 this.leftBaffle.destroy();
             }
-            this.leftBaffle = new Baffle(this, p[0], p[1]);
-            id = this.leftBaffle.id;
+            object = this.leftBaffle = new Baffle(this, p[0], p[1]);
         } else if(type ==='RightBaffle'){
             if(this.rigthBaffle !== null){
                 this.rigthBaffle.destroy();
             }
            
-            this.rigthBaffle = new Baffle(this, p[0], p[1]);
-            id = this.rigthBaffle.id;
+            object = this.rigthBaffle = new Baffle(this, p[0], p[1]);
         } else {
             console.log("wrong type");
+            return false;
         }
-        this.store.state.layout.socket.send("add "+ type + " " + id +" "+ p[0] + " " + p[1]);
+        this.store.commit("updateObject", object);
+        this.store.state.layout.socket.send("add "+ type + " " + object.id +" "+ p[0] + " " + p[1]);
     }
 
 
@@ -111,17 +105,18 @@ export class GameMap extends GimzoObject {
            
             this.ctx.canvas.addEventListener("click",e =>{
                 let p = this.getEventPosition(e);
-                let type = this.store.state.layout.gameObject;
+                let type = this.store.state.layout.objectType;
                 if(type === 'LeftBaffle') {
                     p[0] = this.cols / 4;
                 } else if(type === 'RightBaffle'){
                     p[0] = this.cols/ 4 * 3 ;
                 }
-                if(this.store.state.layout.gameObject !== "click" && this.check_position(p)){
+                if(this.store.state.layout.objectType !== "click" && this.check_position(p)){
                     this.add(p);
-                } else if(this.store.state.layout.gameObject === 'click'){
+                } else if(this.store.state.layout.objectType === 'click'){
                     console.log("click", p);
                     this.store.commit("updateObject", this.components[p]);
+                    
                 }
             });
         } 
@@ -140,7 +135,8 @@ export class GameMap extends GimzoObject {
 
     update() {
         this.update_size();
-        if(this.store.state.layout.status === 'playing'){
+        //游玩的时候进行下一步
+        if(this.store.state.layout.status === 'game'){
             this.next_step();
         }
         this.render();

@@ -4,7 +4,7 @@ export default{
         status:'layout',
         socket:null,
         gameMap:null,
-        gameObject:null,
+        objectType:null,
         object:undefined,
     },
     getters: {
@@ -21,8 +21,8 @@ export default{
         updateMap(state,gameMap){
             state.gameMap = gameMap;
         },
-        updateGameObject(state, gameObject) {
-            state.gameObject = gameObject;
+        updateObjectType(state, type) {
+            state.objectType = type;
         },
         updateObject(state, object){
             state.object = object;
