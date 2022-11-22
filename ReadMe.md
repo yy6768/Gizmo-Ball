@@ -398,3 +398,101 @@ physics组件的实现
 #### Test
 
 1. 前端完成动画测试
+
+
+
+
+
+### 提交12
+
+#### Issue
+
+1、后端websocket仍然没法正确处理消息发送
+2、后端物理世界需要进行深拷贝
+
+#### Work
+
+1、前端组件新增Component和Shape，更好的使用继承关系处理方法
+2、前端的轨道和三角进行重新绘制，原因是没办发旋转图片
+3、后端的physical的一些信息进行修改（主要是调整了常量的位置）
+4、后端的websocket进行了调试和Game的创建
+
+#### Description
+
+更新
+
+全部前端组件js文件
+vuex存储文件
+switchBar.vue
+GameDesignBar.vue
+
+后端Physics文件夹
+game.java和Websocket.java
+新增
+
+1. GizmoComponent.js
+2. GizmoShape.js
+
+#### Test
+
+1.完成了前端显示测试
+2.完成了后端打印测试
+
+
+
+
+
+### 提交13
+
+#### Issue
+
+现在问题很多，总结下来下一阶段分工如下：
+
+文件类
+
+- 前端界面上没有保存导出的按钮，需要完成保存和导入（dyh，GameDesign.js）
+  - 按钮需要在游戏模式禁用，只有布局模式可以保存和导入
+  - 保存和导入需要和后端结合
+- 前端js导入文件信息初始化布局（dyh,LayoutView.vue)
+- 前端js的构造函数的修改（dyh,所有有旋转类的js）
+- 后端打开文件传入信息（yy,FileController,FileService,WebSocket)
+
+物理类
+
+- 后端组件黑洞(Blackhole)、挡板(Baffle)、轨道(StraightPipe,BendPipe)没实现（wxt）
+  - ![image-20221122175344354](http://typora-yy.oss-cn-hangzhou.aliyuncs.com/img/image-20221122175344354.png)
+- 后端组件的球体、三角形、正方体的放大、旋转有问题（wxt，yy）
+  - 旋转后会穿模![image-20221122175525641](http://typora-yy.oss-cn-hangzhou.aliyuncs.com/img/image-20221122175525641.png)
+- 三角型的初始化角度
+- 后端组件的toString方法重构
+  - Ball的toString方法（我已经改好了，yy)
+  - Baffle的toString方法（wxt）
+- worldManager清空（wxt）
+- WorldManager获得单独一个球，两个挡板（左挡板，右挡板）
+
+#### Work
+
+- 重构了WebSocketServer.java和Game.js统一了前后端的坐标衡量
+- 添加了前端Websocket获取信息的部分
+
+#### Description
+
+更新
+
+GameDesignBar.vue
+
+后端Physics文件夹
+game.java和Websocket.java
+
+WorldPlace.java
+
+上传了
+
+1. GizmoComponent.js
+2. GizmoShape.js
+
+#### Test
+
+完成了测试
+
+但是仍然有问题

@@ -31,7 +31,7 @@ public class WorldPlace {
     }
 
     public static void step(){
-        world.step(WorldConstant.TIME_STEP,6,6);
+            world.step(WorldConstant.TIME_STEP,6,6);
     }
 
 }

@@ -14,9 +14,11 @@ export default {
     methods: {
         game(){
             this.$store.commit('updateStatus', 'game');
+            this.$store.state.layout.socket.send("startGame");
         },
         layout(){
             this.$store.commit('updateStatus', 'layout');
+            this.$store.state.layout.socket.send("endGame");
         }
     },
 }

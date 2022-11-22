@@ -23,16 +23,31 @@ export class Baffle extends GimzoComponent{
     add_listening_events(){
         const store = this.gameMap.store;
         const canvas = this.gameMap.ctx.canvas;
+        let socket = this.gameMap.store.state.layout.socket;
         canvas.addEventListener("keydown", e=>{
             console.log(e);
             if(store.state.layout.status === 'game'){
-                if(e.key ==='ArrowLeft'){
-                    if(this.c - this.velocity * this.timedelta / 1000 >= this.limit[0]){    
-                        this.c -= this.velocity * this.timedelta / 1000;
+                if(this.limit[0] === 0){
+                    if(e.key ==='ArrowLeft'){
+                       if(this.c - this.velocity * this.timedelta / 1000 >= this.limit[0]){    
+                            this.c -= this.velocity * this.timedelta / 1000;
+                            socket.send();
+                        }
+                    } else if(e.key === 'ArrowRight'){
+                        if(this.c + this.velocity * this.timedelta / 1000 < this.limit[1]){
+                            this.c += this.velocity * this.timedelta / 1000;
+                        }
                     }
-                } else if(e.key === 'ArrowRight'){
-                    if(this.c + this.velocity * this.timedelta / 1000 < this.limit[1]){
-                        this.c += this.velocity * this.timedelta / 1000;
+                } else {
+                    if(e.key ==='A'){
+                       if(this.c - this.velocity * this.timedelta / 1000 >= this.limit[0]){    
+                            this.c -= this.velocity * this.timedelta / 1000;
+                            socket.send();
+                        }
+                    } else if(e.key === 'D'){
+                        if(this.c + this.velocity * this.timedelta / 1000 < this.limit[1]){
+                            this.c += this.velocity * this.timedelta / 1000;
+                        }
                     }
                 }
             }

@@ -49,7 +49,15 @@ export default {
       this.$store.commit("updateSocket", this.socket);
     };
     this.socket.onmessage = msg =>{
-      console.log(msg);
+      if(this.$store.state.layout.status ==='layout'){
+        //文件导入
+      } else {
+        // console.log(msg.data);
+        const msgs = msg.data.split("#");
+        const x = msgs[2];
+        const y = msgs[3];
+        this.$store.state.layout.gameMap.ball.set_position(x, y);
+      }
     };
     this.socket.onclose = () => {
       console.log("disconnected!");
