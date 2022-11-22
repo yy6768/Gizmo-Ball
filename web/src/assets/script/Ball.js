@@ -16,6 +16,10 @@ export class Ball extends GimzoShape{
         this.image.src = this.gameMap.store.state.icon.ball_icon;
     }
 
+    set_position(x , y) {
+        this.r = y;
+        this.c = x;
+    }
 
     /**
      * 更新函数
@@ -23,14 +27,13 @@ export class Ball extends GimzoShape{
      * 2、当处于游戏模式的时候位置发生变化
      */
     update(){
-        this.render()
+        this.render();
     }
-
+    
     /**
      * 绘制函数
      */
     render(){
-        // console.log(this.image);
         const ctx = this.gameMap.ctx;
         const L = this.gameMap.L;
         ctx.drawImage(this.image, this.c * L, this.r * L, L * this.size, L * this.size);
