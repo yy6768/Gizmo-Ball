@@ -1,5 +1,6 @@
 package com.example.backend.physics.objs;
 
+import com.example.backend.physics.WorldConstant;
 import com.example.backend.physics.WorldPlace;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.collision.shapes.Shape;
@@ -22,10 +23,10 @@ public class GizmoRectangle extends WorldObjects{
     //在我的理解中，反射得到的构造函数是这个
     public GizmoRectangle(Integer id, Float x, Float y){
         this.objectId = id;
-        this.worldX = x;
-        this.worldY = y;
-        this.block_width = 1;
-        this.block_height = 1;
+        this.worldX = x + 0.5f;
+        this.worldY = y - 0.5f;
+        this.block_width = 0.5f;
+        this.block_height = 0.5f;
         initRectangleInWorld(worldX,worldY,block_width,block_height);
     }
 
@@ -46,6 +47,7 @@ public class GizmoRectangle extends WorldObjects{
         bd.type = BodyType.STATIC;
 
         FixtureDef FD = new FixtureDef();
+        FD.friction = 0.3f;
         PolygonShape polygon = new PolygonShape();
         polygon.setAsBox(block_width,block_height);
 
@@ -62,8 +64,10 @@ public class GizmoRectangle extends WorldObjects{
             isSizeLarge = false;
             Shape bodyShape = body.getFixtureList().getShape();
             if(bodyShape.getType() == ShapeType.POLYGON){
-                this.block_width = 2;
-                this.block_height = 2;
+                this.block_width = 0.5f;
+                this.block_height = 0.5f;
+                body.getPosition().x -= 0.5f;
+                body.getPosition().y += 0.5f;
                 FixtureDef FD = new FixtureDef();
                 PolygonShape polygon = new PolygonShape();
                 polygon.setAsBox(block_width,block_height);
@@ -83,8 +87,10 @@ public class GizmoRectangle extends WorldObjects{
             isSizeLarge = true;
             Shape bodyShape = body.getFixtureList().getShape();
             if(bodyShape.getType() == ShapeType.POLYGON){
-                this.block_width = 4;
-                this.block_height = 4;
+                this.block_width = 1;
+                this.block_height = 1;
+                body.getPosition().x += 0.5f;
+                body.getPosition().y -= 0.5f;
                 FixtureDef FD = new FixtureDef();
                 PolygonShape polygon = new PolygonShape();
                 polygon.setAsBox(block_width,block_height);
@@ -101,10 +107,10 @@ public class GizmoRectangle extends WorldObjects{
     @Override
     public String toString(){
         return "Rectangle" + "#"
-                +"{" + objectId + "}" + "#"
-                +"{" + worldX + "}" + "#"
-                +"{" + worldY + "}" + "#"
-                +"{" + isSizeLarge + "}";
+                + objectId + "#"
+                + (body.getPosition().x - block_width) + "#"
+                + ((WorldConstant.HIGHT/WorldConstant.LENGTH - body.getPosition().y) - block_height) + "#"
+                + isSizeLarge;
 
     }
 

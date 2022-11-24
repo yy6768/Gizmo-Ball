@@ -1,5 +1,6 @@
 package com.example.backend.physics.objs;
 
+import com.example.backend.physics.WorldConstant;
 import com.example.backend.physics.WorldPlace;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.collision.shapes.Shape;
@@ -21,15 +22,15 @@ enum RotateStatus {LEFTUP, RIGHTUP, RIGHTDOWN, LEFTDOWN;}
 public class GizmoTriangle extends WorldObjects {
     float block_width;
     float block_height;
-    RotateStatus rotateStatus = RotateStatus.LEFTUP;
+    RotateStatus rotateStatus = RotateStatus.LEFTDOWN;
 
     //在我的理解中，反射得到的构造函数是这个
     public GizmoTriangle(Integer id, Float x, Float y){
         this.objectId = id;
-        this.worldX = x;
-        this.worldY = y;
-        this.block_width = 1;
-        this.block_height = 1;
+        this.worldX = x + 0.5f;
+        this.worldY = y - 0.5f;
+        this.block_width = 0.5f;
+        this.block_height = 0.5f;
         initTriangleInWorld(worldX,worldY,block_width,block_height);
     }
 
@@ -51,7 +52,8 @@ public class GizmoTriangle extends WorldObjects {
 
         FixtureDef FD = new FixtureDef();
         PolygonShape polygon = new PolygonShape();
-        Vec2[] vertices = {new Vec2(-block_width, -block_height), new Vec2(-block_width, block_height), new Vec2(block_width, block_height)};
+        Vec2[] vertices = {new Vec2(-block_width, -block_height), new Vec2(-block_width, block_height), new Vec2(block_width, -block_height)};
+        rotateStatus = RotateStatus.LEFTDOWN;//初始化时默认直角顶点在左下角
         polygon.set(vertices, 3);
 
         FD.shape = polygon;
@@ -69,8 +71,10 @@ public class GizmoTriangle extends WorldObjects {
             isSizeLarge = false;
             Shape bodyShape = body.getFixtureList().getShape();
             if(bodyShape.getType() == ShapeType.POLYGON){
-                this.block_width = 2;
-                this.block_height = 2;
+                this.block_width = 0.5f;
+                this.block_height = 0.5f;
+                body.getPosition().x -= 0.5f;
+                body.getPosition().y += 0.5f;
                 FixtureDef FD = new FixtureDef();
                 PolygonShape polygon = new PolygonShape();
                 Vec2[] vertices = {new Vec2(-block_width, -block_height), new Vec2(-block_width, block_height), new Vec2(block_width, -block_height)};
@@ -92,8 +96,10 @@ public class GizmoTriangle extends WorldObjects {
             isSizeLarge = true;
             Shape bodyShape = body.getFixtureList().getShape();
             if(bodyShape.getType() == ShapeType.POLYGON){
-                this.block_width = 4;
-                this.block_height = 4;
+                this.block_width = 1;
+                this.block_height = 1;
+                body.getPosition().x += 0.5f;
+                body.getPosition().y -= 0.5f;
                 FixtureDef FD = new FixtureDef();
                 PolygonShape polygon = new PolygonShape();
                 Vec2[] vertices = {new Vec2(-block_width, -block_height), new Vec2(-block_width, block_height), new Vec2(block_width, -block_height)};
@@ -137,11 +143,11 @@ public class GizmoTriangle extends WorldObjects {
     @Override
     public String toString(){
         return "Triangle" + "#"
-                +"{" + objectId + "}" + "#"
-                +"{" + worldX + "}" + "#"
-                +"{" + worldY + "}" + "#"
-                +"{" + isSizeLarge + "}" + "#"
-                +"{" + rotateStatus.ordinal() + "}";
+                + objectId + "#"
+                + (body.getPosition().x - block_width) + "#"
+                + ((WorldConstant.HIGHT/WorldConstant.LENGTH - body.getPosition().y) - block_height) + "#"
+                + isSizeLarge + "#"
+                + rotateStatus.ordinal();
     }
 
 
