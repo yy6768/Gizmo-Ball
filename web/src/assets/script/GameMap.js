@@ -66,19 +66,19 @@ export class GameMap extends GimzoObject {
             if(this.ball !== null) {
                 this.ball.destroy();
             }
-            object = this.ball = new Ball(this, p[0], p[1]);
+            object = this.ball = new Ball(this, p[0], p[1], 1);
         } else if(type === 'Circle'){
-            object = new Circle(this, p[0], p[1]);
+            object = new Circle(this, p[0], p[1], 1);
         } else if(type === 'Blackhole'){
             object = new Blackhole(this, p[0], p[1]);
         } else if(type === 'Rectangle') {
-            object = new Rectangle(this, p[0], p[1]);
+            object = new Rectangle(this, p[0], p[1], 1);
         } else if(type === 'Triangle'){
-            object = new Triangle(this, p[0], p[1]);
+            object = new Triangle(this, p[0], p[1], 1, 0);
         } else if(type === 'StraightPipe'){
-            object = new StraightPipe(this,p[0],p[1]);
+            object = new StraightPipe(this,p[0],p[1], 0);
         } else if(type === 'BendPipe'){
-            object = new BendPipe(this, p[0], p[1]);
+            object = new BendPipe(this, p[0], p[1], 0);
         } else if(type ==='LeftBaffle'){
             if(this.leftBaffle !== null){
                 this.leftBaffle.destroy();

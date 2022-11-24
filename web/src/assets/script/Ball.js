@@ -2,13 +2,12 @@ import { GimzoShape } from "./GimzoShape";
 export class Ball extends GimzoShape{
     /**
      * 构造函数
-     * @param {游戏地图 creator&信息专家} gameMap 
+     * @param {游戏地图} gameMap 
      * @param {横坐标} c 
      * @param {纵坐标} r 
      */
-    constructor(gameMap,c, r){
-        super(gameMap, c, r);
-        this.size = 1;
+    constructor(gameMap, c, r, size){
+        super(gameMap, c, r,size);
         //速度在x方向和y方向的分量
         this.velocity = [0,0];
 

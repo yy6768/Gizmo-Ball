@@ -2,9 +2,9 @@ import { GimzoComponent } from "./GimzoComponent";
 import { Cell } from "./Cell";
 
 export class GimzoShape extends GimzoComponent {
-    constructor(gameMap, c, r){
+    constructor(gameMap, c, r, size){
         super(gameMap, c, r);
-        this.size = 1;
+        this.size = size;
     }
 
     magnify(){

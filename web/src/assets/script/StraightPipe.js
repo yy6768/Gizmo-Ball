@@ -4,10 +4,10 @@ import { GimzoComponent } from "./GimzoComponent";
 
 export class StraightPipe extends GimzoComponent{
     
-    constructor(gameMap, c, r){
+    constructor(gameMap, c, r, d){
         super(gameMap, c, r);
         //d = 0 表示水平 1表示竖直
-        this.d = 1;
+        this.d = d;
         this.dx = [0, 1];
         this.dy = [1, 0];
         

@@ -28,13 +28,19 @@ public class WebSocketServer {
 
     private Game game = null;
 
-    private final WorldManager worldManager = new WorldManager();
+    private WorldManager worldManager = new WorldManager();
 
     //启动游戏
     private void startGame() {
         game = new Game(this, worldManager);
         game.start();
     }
+
+    public void setWorldManager(WorldManager worldManager) {
+        this.worldManager = worldManager;
+        initLayout();
+    }
+
     //结束游戏
     private void endGame() {
         game.setDone(true);
@@ -123,7 +129,6 @@ public class WebSocketServer {
         float x = Float.parseFloat(messages[3]) * WorldConstant.LENGTH;
         //组件的纵坐标，因为物理引擎和画布上下颠倒，所以需要使用画布高度减当前的坐标
         float y = WorldConstant.HIGHT - Float.parseFloat(messages[4]) * WorldConstant.LENGTH;
-        System.out.println(x + "" + y);
         Class<?> objectType;
         try {
             //反射动态创建组件

@@ -1,11 +1,11 @@
 import { GimzoComponent } from "./GimzoComponent";
 
 export class BendPipe extends GimzoComponent{
-    constructor(gameMap, c, r){
+    constructor(gameMap, c, r, angle){
         super(gameMap, c , r);
         // this.image = new Image();
         // this.image.src = this.gameMap.store.state.icon.bend_pipe_icon;
-        this.angle = 0;
+        this.angle = angle;
         this.dx = [0, 0, 1, 1];
         this.dy = [0, 1, 1, 0];
     }

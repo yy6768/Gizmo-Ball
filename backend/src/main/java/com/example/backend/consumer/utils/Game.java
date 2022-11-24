@@ -25,13 +25,13 @@ public class Game extends Thread {
         super.run();
         while(!isDone){
             try {
-                Thread.sleep(30);
+                Thread.sleep(5);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             world.logic();
-            world.getAllBalls().forEach(e-> System.out.println(e.toString()));
-            world.getAllBalls().forEach(e-> socketServer.sendMessage(e.toString()));
+
+            socketServer.sendMessage(world.getBall().toString());
         }
     }
 
