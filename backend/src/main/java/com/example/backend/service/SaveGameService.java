@@ -1,8 +1,9 @@
 package com.example.backend.service;
 
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Date;
 
 public interface SaveGameService {
-    void saveFile(Date time, OutputStream stream);
+    void saveFile(OutputStream stream) throws IOException;
 }
