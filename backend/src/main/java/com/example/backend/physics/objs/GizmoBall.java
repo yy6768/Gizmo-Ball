@@ -19,14 +19,15 @@ import java.awt.*;
 public class GizmoBall extends WorldObjects {
 
     float r;
+    //如果球的直径和轨道宽一致会导致球进不去轨道这个问题，因此实际设计上球的半径需要小一点
     Color color = Color.cyan;
 
     //在我的理解中，反射得到的构造函数是这个
     public GizmoBall(Integer id, Float x, Float y) {
         this.objectId = id;
-        this.worldX = x;
-        this.worldY = y;
-        this.r = WorldConstant.LENGTH / 2.0f;
+        this.worldX = x + 0.5f;
+        this.worldY = y - 0.5f;
+        this.r = 0.45f;//为什么是0.45参考上面
         initBallInWorld();
     }
 
@@ -62,8 +63,8 @@ public class GizmoBall extends WorldObjects {
         cs.m_radius = r;
         fd.shape = cs;
         fd.density = 0.5f;
-        fd.friction = 0.3f;
-        fd.restitution = 0.6f;
+        fd.friction = 0f;
+        fd.restitution = 0.99f;
 
         body = WorldPlace.world.createBody(bd);
         body.createFixture(fd);
@@ -76,7 +77,9 @@ public class GizmoBall extends WorldObjects {
             Shape bodyShape = body.getFixtureList().getShape();
             if (bodyShape.getType() == ShapeType.CIRCLE) {
                 bodyShape.setRadius(1);
-                this.r = (float) (WorldConstant.LENGTH / 2.0);
+                body.getPosition().x -= 0.5f;
+                body.getPosition().y += 0.5f;
+                this.r = 0.45f;
             }
 
         }
@@ -91,7 +94,9 @@ public class GizmoBall extends WorldObjects {
             Shape bodyShape = body.getFixtureList().getShape();
             if (bodyShape.getType() == ShapeType.CIRCLE) {
                 bodyShape.setRadius(WorldConstant.LENGTH);
-                this.r = WorldConstant.LENGTH;
+                body.getPosition().x += 0.5f;
+                body.getPosition().y -= 0.5f;
+                this.r = 0.9f;
             }
         }
         body.setAwake(true);
@@ -101,11 +106,11 @@ public class GizmoBall extends WorldObjects {
     public String toString() {
         return "Ball" + "#"
                 + objectId + "#"
-                + (body.getPosition().x / WorldConstant.LENGTH) + "#"
-                + ((WorldConstant.HIGHT - body.getPosition().y) / WorldConstant.LENGTH) + "#"
+                + (body.getPosition().x - r) + "#"
+                + ((WorldConstant.HIGHT/WorldConstant.LENGTH - body.getPosition().y) - r) + "#"
                 + isSizeLarge + "#"
-                + (body.getLinearVelocity().x / WorldConstant.LENGTH) + "#"
-                + (body.getLinearVelocity().y / WorldConstant.LENGTH);
+                + (body.getLinearVelocity().x) + "#"
+                + (body.getLinearVelocity().y);
     }
 
     //修改物体的物理学Type，非材质Type

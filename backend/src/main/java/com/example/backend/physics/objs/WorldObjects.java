@@ -27,6 +27,9 @@ public abstract class WorldObjects implements GizmoObject {
     public abstract void drawMe(Graphics2D g);
 
     public ShapeType getShapeType(){
+        if(body.m_fixtureList.m_shape == null)
+            return null;
+
         return body.m_fixtureList.m_shape.m_type;
     }
 

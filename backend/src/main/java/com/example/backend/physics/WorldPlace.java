@@ -15,19 +15,19 @@ public class WorldPlace {
 
 
     public static int mile2Pixel(float mile){
-        return (int)(mile*WorldConstant.RATE);
+        return (int)(mile*WorldConstant.LENGTH);
     }
 
     public static float pixel2Mile(int pixel){
-        return pixel/WorldConstant.RATE;
+        return pixel/WorldConstant.LENGTH;
     }
 
     public static int toPixelHeight(float mile){
-        return WorldConstant.HIGHT - (int) (mile*WorldConstant.RATE);
+        return WorldConstant.HIGHT - (int) (mile*WorldConstant.LENGTH);
     }
 
     public static float pixel2Height(int height){
-        return (WorldConstant.HIGHT - height)/WorldConstant.RATE;
+        return (WorldConstant.HIGHT - height)/WorldConstant.LENGTH;
     }
 
     public static void step(){
