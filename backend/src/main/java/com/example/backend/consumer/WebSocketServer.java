@@ -158,4 +158,8 @@ public class WebSocketServer {
             e.printStackTrace();
         }
     }
+
+    public WorldManager getWorldManager() {
+        return worldManager;
+    }
 }
