@@ -7,8 +7,8 @@ export class Rectangle extends GimzoShape{
      * @param {横坐标} c 
      * @param {纵坐标} r 
      */
-    constructor(gameMap, c, r){
-        super(gameMap, c, r);
+    constructor(gameMap, c, r,size){
+        super(gameMap, c, r,size);
 
         this.image = new Image();
         this.image.src = this.gameMap.store.state.icon.rectangle_icon;

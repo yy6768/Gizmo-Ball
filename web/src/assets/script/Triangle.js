@@ -7,11 +7,13 @@ export class Triangle extends GimzoShape{
      * @param {游戏地图} gameMap 
      * @param {横坐标} c 
      * @param {纵坐标} r 
+     * @param {大小} size
+     * @param {初始角度} angle
      */
-    constructor(gameMap, c, r){
-        super(gameMap, c, r);
+    constructor(gameMap, c, r, size, angle){
+        super(gameMap, c, r, size);
         //当前的角度
-        this.angle = 0;
+        this.angle = angle;
         this.dx = [0, 0, 1, 1];
         this.dy = [0, 1, 1, 0];
     }

@@ -106,8 +106,8 @@ public class GizmoBall extends WorldObjects {
     public String toString() {
         return "Ball" + "#"
                 + objectId + "#"
-                + (body.getPosition().x - r) + "#"
-                + ((WorldConstant.HIGHT/WorldConstant.LENGTH - body.getPosition().y) - r) + "#"
+                + (body.getPosition().x - r) / WorldConstant.LENGTH + "#"
+                + ((WorldConstant.HIGHT - body.getPosition().y) - r) / WorldConstant.LENGTH + "#"
                 + isSizeLarge + "#"
                 + (body.getLinearVelocity().x) + "#"
                 + (body.getLinearVelocity().y);
