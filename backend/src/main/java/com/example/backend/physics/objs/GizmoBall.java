@@ -104,13 +104,20 @@ public class GizmoBall extends WorldObjects {
 
     @Override
     public String toString() {
+        int size = isSizeLarge ? 2 : 1;
+        float trueX = body.getPosition().x - (r + 0.05f) * size;
+        float trueY = WorldConstant.CANVAS_HEIGHT - body.getPosition().y - (r + 0.05f) * size;
+        float trueWorldX = worldX - (r + 0.05f) *  size;
+        float trueWorldY = WorldConstant.CANVAS_HEIGHT - worldY - (r +0.05f) * size;
         return "Ball" + "#"
                 + objectId + "#"
-                + (body.getPosition().x - r) / WorldConstant.LENGTH + "#"
-                + ((WorldConstant.HIGHT - body.getPosition().y) - r) / WorldConstant.LENGTH + "#"
+                + trueX + "#"
+                + trueY + "#"
                 + isSizeLarge + "#"
                 + (body.getLinearVelocity().x) + "#"
-                + (body.getLinearVelocity().y);
+                + (body.getLinearVelocity().y) + "#"
+                + trueWorldX + "#"
+                + trueWorldY;
     }
 
     //修改物体的物理学Type，非材质Type

@@ -49,14 +49,23 @@ export default {
       this.$store.commit("updateSocket", this.socket);
     };
     this.socket.onmessage = msg =>{
-      if(this.$store.state.layout.status ==='layout'){
+      const store = this.$store;
+      if(store.state.layout.status ==='layout'){
         //文件导入
       } else {
-        // console.log(msg.data);
         const msgs = msg.data.split("#");
+        const type = msgs[0];
         const x = msgs[2];
         const y = msgs[3];
-        this.$store.state.layout.gameMap.ball.set_position(x, y);
+        if (type === "Ball") {
+          store.state.layout.gameMap.ball.set_position(x, y);
+        } else if (type === "Baffle") {
+          if(msgs[4] === 'true'){
+            store.state.layout.gameMap.leftBaffle.set_position(x, y);
+          } else {
+            store.state.layout.gameMap.rightBaffle.set_position(x, y);
+          }
+        }        
       }
     };
     this.socket.onclose = () => {

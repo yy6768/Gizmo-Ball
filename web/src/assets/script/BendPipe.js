@@ -5,9 +5,9 @@ export class BendPipe extends GimzoComponent{
         super(gameMap, c , r);
         // this.image = new Image();
         // this.image.src = this.gameMap.store.state.icon.bend_pipe_icon;
-        this.angle = angle;
-        this.dx = [0, 0, 1, 1];
-        this.dy = [0, 1, 1, 0];
+        this.angle = angle + 3;
+        this.dx = [0, 1, 1, 0];
+        this.dy = [0, 0, 1, 1];
     }
 
     update(){
@@ -28,8 +28,8 @@ export class BendPipe extends GimzoComponent{
         ctx.beginPath();
         const x = (this.c + this.dx[this.angle]) * L;
         const y = (this.r + this.dy[this.angle]) * L;
-        const ba = -this.angle * Math.PI / 2;
-        const ea = (1 - this.angle) * Math.PI / 2;
+        const ba = this.angle * Math.PI / 2;
+        const ea = (this.angle + 1) * Math.PI / 2;
         ctx.arc(x, y, L, ba, ea);
         ctx.stroke();
     }

@@ -5,6 +5,7 @@ import com.example.backend.consumer.utils.Game;
 import com.example.backend.exception.MessageException;
 import com.example.backend.physics.WorldConstant;
 import com.example.backend.physics.WorldManager;
+import com.example.backend.physics.objs.GizmoBaffle;
 import com.example.backend.physicsInterface.GizmoObject;
 import com.example.backend.physicsInterface.GizmoWorld;
 import org.springframework.stereotype.Component;
@@ -42,8 +43,10 @@ public class WebSocketServer {
     }
 
     //结束游戏
-    private void endGame() {
+    public void endGame() {
         game.setDone(true);
+        sendMessage("endGame");
+        initLayout();
     }
 
     //载入布局
@@ -75,6 +78,7 @@ public class WebSocketServer {
      * 旋转组件 rotate
      * 放大组件 magnify
      * 缩小组件 shrink
+     *
      * @param message 接受到的消息
      * @param session websocket的session信息
      * @throws IOException
@@ -110,13 +114,25 @@ public class WebSocketServer {
             int id = Integer.parseInt(messages[1]);
             GizmoObject object = worldManager.get(id);
             object.shrink();
+        } else if (message.startsWith("left")) {
+            String[] messages = message.split(" ");
+            float direction = Integer.parseInt(messages[2]);
+            GizmoBaffle leftBaffle = (GizmoBaffle) worldManager.getLeftBaffle();
+            leftBaffle.setSpeed(direction * WorldConstant.BAFFLE_SPEED, 0f);
+        } else if (message.startsWith("right")) {
+            String[] messages = message.split(" ");
+            float direction = Integer.parseInt(messages[2]);
+            GizmoBaffle rightBaffle = (GizmoBaffle) worldManager.getRightBaffle();
+            rightBaffle.setSpeed(direction * WorldConstant.BAFFLE_SPEED, 0f);
         } else {
+            System.out.println(message);
             throw new MessageException("websocket信息处理错误");
         }
     }
 
     /**
      * 添加组件（因为逻辑复杂单独分离出一个私有函数）
+     *
      * @param message
      */
     private void addComponents(String message) {
@@ -126,9 +142,9 @@ public class WebSocketServer {
         //组件的id
         int id = Integer.parseInt(messages[2]);
         //组件的横坐标
-        float x = Float.parseFloat(messages[3]) * WorldConstant.LENGTH;
+        float x = Float.parseFloat(messages[3]);
         //组件的纵坐标，因为物理引擎和画布上下颠倒，所以需要使用画布高度减当前的坐标
-        float y = WorldConstant.HIGHT - Float.parseFloat(messages[4]) * WorldConstant.LENGTH;
+        float y = WorldConstant.CANVAS_HEIGHT - Float.parseFloat(messages[4]);
         Class<?> objectType;
         try {
             //反射动态创建组件
@@ -149,6 +165,7 @@ public class WebSocketServer {
 
     /**
      * 向前端发送消息
+     *
      * @param message 输出的消息
      */
     public void sendMessage(String message) {
