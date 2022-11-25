@@ -16,10 +16,10 @@ public class GizmoBaffle extends WorldObjects{
 
     float Baffle_width;
     float Baffle_height;
-    Boolean ifLeft = false;
+    Boolean ifLeft;
 
     public GizmoBaffle(Integer id, Float x, Float y) {
-        ifLeft = true;
+        ifLeft = x <= 10.0;
         this.objectId = id;
         this.worldX = x + 1f;
         this.worldY = y - 0.1f;
@@ -131,12 +131,12 @@ public class GizmoBaffle extends WorldObjects{
         return "Baffle" + "#"
                 + objectId + "#"
                 + (body.getPosition().x - Baffle_width) + "#"
-                + ((WorldConstant.HIGHT/WorldConstant.LENGTH - body.getPosition().y) - Baffle_height) + "#"
+                + ((WorldConstant.CANVAS_HEIGHT - body.getPosition().y) - Baffle_height) + "#"
                 + ifLeft;
     }
 
 
-    
+
     private int getPixelX(){
         return WorldPlace.mile2Pixel(body.getPosition().x-Baffle_width);
     }

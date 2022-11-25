@@ -2,9 +2,9 @@ import { GimzoShape } from "./GimzoShape";
 export class Ball extends GimzoShape{
     /**
      * 构造函数
-     * @param {游戏地图} gameMap 
-     * @param {横坐标} c 
-     * @param {纵坐标} r 
+     * @param { 游戏地图 } gameMap 
+     * @param { 横坐标 } c 
+     * @param { 纵坐标 } r 
      */
     constructor(gameMap, c, r, size){
         super(gameMap, c, r,size);
@@ -15,9 +15,9 @@ export class Ball extends GimzoShape{
         this.image.src = this.gameMap.store.state.icon.ball_icon;
     }
 
-    set_position(x , y) {
+    set_position(x, y) {
         this.r = y;
-        this.c = x;
+        this.c = x;    
     }
 
     /**

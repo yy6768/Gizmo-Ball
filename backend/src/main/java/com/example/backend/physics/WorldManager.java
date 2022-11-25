@@ -19,32 +19,32 @@ public class WorldManager implements GizmoWorld {
     }
 
     private void initObjs() {
-        /*
-        GizmoBall ball = new GizmoBall(new Integer(1), new Float(12), new Float(20));
-        worldObjects.add(ball);
 
-        GizmoRectangle wood1 = new GizmoRectangle(new Integer(3), new Float(18), new Float(10));
-        worldObjects.add(wood1);
-
-        GizmoBaffle baf = new GizmoBaffle(new Integer(10), new Float(8), new Float(10));
-        worldObjects.add(baf);
-
-        GizmoStraightPipe pipe = new GizmoStraightPipe(new Integer(10), new Float(12), new Float(10));
-        worldObjects.add(pipe);
-
-        GizmoStraightPipe pipe1 = new GizmoStraightPipe(new Integer(10), new Float(11), new Float(9));
-        pipe1.rotate();
-        worldObjects.add(pipe1);
-
-        GizmoBendPipe bpipe = new GizmoBendPipe(new Integer(10), new Float(12), new Float(9));
-        bpipe.rotate();
-        worldObjects.add(bpipe);
-
-        GizmoBlackhole bhole = new GizmoBlackhole(new Integer(10), new Float(9), new Float(3));
-        worldObjects.add(bhole);
-
-        GizmoWorldEdge edge = new GizmoWorldEdge();
-        worldObjects.add(edge);*/
+    //        GizmoBall ball = new GizmoBall(new Integer(1), new Float(12), new Float(20));
+    //        worldObjects.add(ball);
+    //
+    //        GizmoRectangle wood1 = new GizmoRectangle(new Integer(3), new Float(18), new Float(10));
+    //        worldObjects.add(wood1);
+    //
+    //        GizmoBaffle baf = new GizmoBaffle(new Integer(10), new Float(8), new Float(10));
+    //        worldObjects.add(baf);
+    //
+    //        GizmoStraightPipe pipe = new GizmoStraightPipe(new Integer(10), new Float(12), new Float(10));
+    //        worldObjects.add(pipe);
+    //
+    //        GizmoStraightPipe pipe1 = new GizmoStraightPipe(new Integer(10), new Float(11), new Float(9));
+    //        pipe1.rotate();
+    //        worldObjects.add(pipe1);
+    //
+    //        GizmoBendPipe bpipe = new GizmoBendPipe(new Integer(10), new Float(12), new Float(9));
+    //        bpipe.rotate();
+    //        worldObjects.add(bpipe);
+    //
+    //        GizmoBlackhole bhole = new GizmoBlackhole(new Integer(10), new Float(9), new Float(3));
+    //        worldObjects.add(bhole);
+    //
+    //        GizmoWorldEdge edge = new GizmoWorldEdge();
+    //        worldObjects.add(edge);
     }
 
 
@@ -241,8 +241,8 @@ public class WorldManager implements GizmoWorld {
     public void logic() {
         WorldPlace.step();
         attractBallToBlackHole(3f,0.8f);
-        if(getBall()!=null)
-            System.out.println(getBall().toString());
+//        if(getBall()!=null)
+//            System.out.println(getBall().toString());
     }
 
     public void draw(Graphics2D g) {

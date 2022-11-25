@@ -83,12 +83,13 @@ export class GameMap extends GimzoObject {
             if(this.leftBaffle !== null){
                 this.leftBaffle.destroy();
             }
+            type = "Baffle";
             object = this.leftBaffle = new Baffle(this, p[0], p[1]);
         } else if(type ==='RightBaffle'){
             if(this.rigthBaffle !== null){
                 this.rigthBaffle.destroy();
             }
-           
+            type = "Baffle";
             object = this.rigthBaffle = new Baffle(this, p[0], p[1]);
         } else {
             console.log("wrong type");
@@ -101,9 +102,8 @@ export class GameMap extends GimzoObject {
 
     //绑定事件
     add_listening_events(){ 
-        if(this.store.state.layout.status === 'layout'){ //游玩模式绑定点击事件
-           
-            this.ctx.canvas.addEventListener("click",e =>{
+        this.ctx.canvas.addEventListener("click",e =>{
+            if(this.store.state.layout.status === 'layout'){ //游玩模式绑定点击事件
                 let p = this.getEventPosition(e);
                 let type = this.store.state.layout.objectType;
                 if(type === 'LeftBaffle') {
@@ -118,8 +118,10 @@ export class GameMap extends GimzoObject {
                     this.store.commit("updateObject", this.components[p]);
                     
                 }
-            });
-        } 
+            } 
+                
+        });
+        
     }
 
     update_size() {

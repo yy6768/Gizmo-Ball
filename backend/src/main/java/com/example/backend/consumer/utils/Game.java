@@ -2,6 +2,7 @@ package com.example.backend.consumer.utils;
 
 import com.example.backend.consumer.WebSocketServer;
 import com.example.backend.physics.WorldManager;
+import com.example.backend.physics.objs.GizmoWorldEdge;
 import com.example.backend.physicsInterface.GizmoObject;
 
 public class Game extends Thread {
@@ -17,7 +18,7 @@ public class Game extends Thread {
         world = initWorld;
         isDone = false;
         socketServer = socket;
-        initWorld.awakeAll();
+        initWorld.add(new GizmoWorldEdge());
     }
 
     @Override
@@ -25,13 +26,18 @@ public class Game extends Thread {
         super.run();
         while(!isDone){
             try {
-                Thread.sleep(5);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             world.logic();
-
-            socketServer.sendMessage(world.getBall().toString());
+            try {
+                socketServer.sendMessage(world.getBall().toString());
+                if(world.getLeftBaffle() != null) socketServer.sendMessage(world.getLeftBaffle().toString());
+                if(world.getRightBaffle() != null) socketServer.sendMessage(world.getRightBaffle().toString());
+            } catch (NullPointerException e){
+                socketServer.endGame();
+            }
         }
     }
 
