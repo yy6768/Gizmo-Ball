@@ -111,13 +111,11 @@ public class GizmoBall extends WorldObjects {
         float trueWorldY = WorldConstant.CANVAS_HEIGHT - worldY - (r +0.05f) * size;
         return "Ball" + "#"
                 + objectId + "#"
-                + trueX + "#"
-                + trueY + "#"
-                + isSizeLarge + "#"
-                + (body.getLinearVelocity().x) + "#"
-                + (body.getLinearVelocity().y) + "#"
                 + trueWorldX + "#"
-                + trueWorldY;
+                + trueWorldY + "#"
+                + isSizeLarge + "#"
+                + trueX + "#"
+                + trueY;
     }
 
     //修改物体的物理学Type，非材质Type
@@ -129,5 +127,9 @@ public class GizmoBall extends WorldObjects {
     public void drawMe(Graphics2D g) {
         g.setColor(color);
         g.fillOval(this.getPixelX(), this.getPixelY(), this.getDiameter(), this.getDiameter());
+    }
+
+    public void reposition(){
+        initBallInWorld();
     }
 }

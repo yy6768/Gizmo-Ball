@@ -48,24 +48,19 @@ export default {
       console.log("connected");
       this.$store.commit("updateSocket", this.socket);
     };
-    this.socket.onmessage = msg =>{
+    this.socket.onmessage = res =>{
+      const msg = res.data;
       const store = this.$store;
       if(store.state.layout.status ==='layout'){
-        //文件导入
+        store.state.layout.gameMap.init_layout(msg);
       } else {
-        const msgs = msg.data.split("#");
-        const type = msgs[0];
-        const x = msgs[2];
-        const y = msgs[3];
-        if (type === "Ball") {
-          store.state.layout.gameMap.ball.set_position(x, y);
-        } else if (type === "Baffle") {
-          if(msgs[4] === 'true'){
-            store.state.layout.gameMap.leftBaffle.set_position(x, y);
-          } else {
-            store.state.layout.gameMap.rightBaffle.set_position(x, y);
-          }
-        }        
+        if (msg.startsWith('endGame')){
+          this.$message.info("游戏结束");
+          store.state.layout.gameMap.init_layout(msg);
+          store.commit('updateStatus', 'layout');
+        } else {
+          store.state.layout.gameMap.next_step(msg);
+        }
       }
     };
     this.socket.onclose = () => {

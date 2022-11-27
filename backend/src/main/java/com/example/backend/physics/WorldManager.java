@@ -10,6 +10,7 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
+
 public class WorldManager implements GizmoWorld {
 
     List<WorldObjects> worldObjects = new ArrayList<>();
@@ -43,8 +44,8 @@ public class WorldManager implements GizmoWorld {
     //        GizmoBlackhole bhole = new GizmoBlackhole(new Integer(10), new Float(9), new Float(3));
     //        worldObjects.add(bhole);
     //
-    //        GizmoWorldEdge edge = new GizmoWorldEdge();
-    //        worldObjects.add(edge);
+            GizmoWorldEdge edge = new GizmoWorldEdge();
+            worldObjects.add(edge);
     }
 
 

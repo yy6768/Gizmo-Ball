@@ -88,10 +88,12 @@ public class GizmoBendPipe extends WorldObjects{
 
     @Override
     public String toString() {
+        float initX = (body.getPosition().x - rail_width);
+        float initY = ((WorldConstant.CANVAS_HEIGHT - body.getPosition().y) - rail_height);
         return "BendPipe" + "#"
                 + objectId + "#"
-                + (body.getPosition().x - rail_width) + "#"
-                + ((WorldConstant.HIGHT/WorldConstant.LENGTH - body.getPosition().y) - rail_height) + "#"
+                + initX + "#"
+                + initY + "#"
                 + railRotateStatus;
     }
 

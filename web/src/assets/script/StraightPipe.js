@@ -33,13 +33,15 @@ export class StraightPipe extends GimzoComponent{
         // ctx.drawImage(this.image,this.c * L, this.r * L, L , L);
         const x = this.c * L;
         const y = this.r * L;
-        ctx.fillStyle = "black";    
+           
         ctx.beginPath();
         ctx.moveTo(x, y);
         ctx.lineTo(x + this.dx[this.d] * L, y + this.dy[this.d] * L);
+        ctx.strokeStyle= "black"; 
         ctx.stroke();
         ctx.moveTo(x + this.dx[1 - this.d] * L, y + this.dy[1 - this.d] * L);
         ctx.lineTo(x + L, y + L);
+
         ctx.stroke();
     }
 }

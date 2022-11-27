@@ -450,25 +450,25 @@ game.java和Websocket.java
 
 文件类
 
-- 前端界面上没有保存导出的按钮，需要完成保存和导入（dyh，GameDesign.js）
-  - 按钮需要在游戏模式禁用，只有布局模式可以保存和导入
-  - 保存和导入需要和后端结合
+- 前端界面上没有保存导出的按钮，需要完成保存和导入（dyh，GameDesign.js)
+  - 按钮需要在游戏模式禁用，只有布局模式可以保存和导入（√）
+  - 保存和导入需要和后端结合（）
 - 前端js导入文件信息初始化布局（dyh,LayoutView.vue)
-- 前端js的构造函数的修改（dyh,所有有旋转类的js）
+- 前端js的构造函数的修改（dyh,所有有旋转类的js）（√）
 - 后端打开文件传入信息（yy,FileController,FileService,WebSocket)
 
 物理类
 
-- 后端组件黑洞(Blackhole)、挡板(Baffle)、轨道(StraightPipe,BendPipe)没实现（wxt）
+- 后端组件黑洞(Blackhole)、挡板(Baffle)、轨道(StraightPipe,BendPipe)没实现（wxt）（√）
   - ![image-20221122175344354](http://typora-yy.oss-cn-hangzhou.aliyuncs.com/img/image-20221122175344354.png)
-- 后端组件的球体、三角形、正方体的放大、旋转有问题（wxt，yy）
+- 后端组件的球体、三角形、正方体的放大、旋转有问题（wxt，yy）（√）
   - 旋转后会穿模![image-20221122175525641](http://typora-yy.oss-cn-hangzhou.aliyuncs.com/img/image-20221122175525641.png)
-- 三角型的初始化角度
-- 后端组件的toString方法重构
+- 三角型的初始化角度（√）
+- 后端组件的toString方法重构（√）
   - Ball的toString方法（我已经改好了，yy)
   - Baffle的toString方法（wxt）
-- worldManager清空（wxt）
-- WorldManager获得单独一个球，两个挡板（左挡板，右挡板）
+- worldManager清空（wxt）（√）
+- WorldManager获得单独一个球，两个挡板（左挡板，右挡板）（√）
 
 #### Work
 

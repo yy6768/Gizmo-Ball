@@ -2,18 +2,12 @@ import { GimzoComponent } from "./GimzoComponent";
 import { Cell } from "./Cell"
 export class Baffle extends GimzoComponent{
 
-    constructor(gameMap, c, r){
+    constructor(gameMap, c, r, isLeft){
         super(gameMap, c, r);
         
-        if(this.c < 10){
-            this.limit = [0,10];
-        } else {
-            this.limit = [10,20];
-        }
-
         this.cells.push(new Cell(r, c + 1));
         this.direction = 0;
-
+        this.isLeft = isLeft;
         this.image = new Image();
         this.image.src = this.gameMap.store.state.icon.baffle_icon;
     }
@@ -30,9 +24,9 @@ export class Baffle extends GimzoComponent{
         let socket = this.gameMap.store.state.layout.socket;
         canvas.addEventListener("keydown", e=>{
             if(store.state.layout.status === 'game'){
-                if(this.c < 10){
+                if(this.isLeft){
                     console.log(e);
-                    if(e.key ==='a'){
+                    if(e.key === 'a'){
                         socket.send("left " + this.id + " -1");
                     } else if(e.key === 'd'){
                         socket.send("left " + this.id + " 1");
@@ -48,7 +42,7 @@ export class Baffle extends GimzoComponent{
         });   
         canvas.addEventListener("keyup",e =>{
             if(store.state.layout.status === 'game'){
-                if(this.c < 10){
+                if(this.isLeft){
                     if(e.key ==='a' || e.key === 'd'){
                         socket.send("left " + this.id + " 0");
                     }
@@ -74,23 +68,11 @@ export class Baffle extends GimzoComponent{
 
     on_destroy(){
         super.on_destroy();
-
-        const canvas = this.gameMap.ctx.canvas;
-        canvas.removeEventListener("keydown",e=>{
-            if(e ==='ArrowLeft'){
-                if(this.c - this.velocity * this.timedelta >= this.limit[0]) 
-                    this.c -= this.velocity * this.timedelta;
-            } else if(e === 'ArrowRight'){
-                if(this.c + this.velocity * this.timedelta < this.timedelta)
-                    this.c += this.velocity * this.timedelta;
-            }
-        });
-
     }
 
     render(){
         const ctx = this.gameMap.ctx;
         const L = this.gameMap.L;
-        ctx.drawImage(this.image,this.c * L ,this.r * L, L * 2 , L);
+        ctx.drawImage(this.image,this.c * L ,(this.r -0.9) * L, L * 2 , L);
     }
 }

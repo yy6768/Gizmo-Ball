@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-
+import java.util.Map;
 
 
 @RestController
@@ -19,7 +19,8 @@ public class UploadGameController {
     private UploadGameService uploadGameService;
 
     @PostMapping("/upload")
-    public JSONObject uploadFile(@RequestParam("file") MultipartFile file) throws Exception {
-        return uploadGameService.uploadGame(file);
+    public Map<String,String> uploadFile(@RequestParam("file") MultipartFile file) throws Exception {
+        Map<String,String> res = uploadGameService.uploadGame(file);
+        return res;
     }
 }

@@ -40,7 +40,8 @@ public class GizmoBlackhole extends WorldObjects{
 
     @Override
     public String toString(){
-        return "BlackHole" + "#"
+
+        return "Blackhole" + "#"
                 + objectId + "#"
                 + (body.getPosition().x - r) + "#"
                 + ((WorldConstant.HIGHT/WorldConstant.LENGTH - body.getPosition().y) - r);

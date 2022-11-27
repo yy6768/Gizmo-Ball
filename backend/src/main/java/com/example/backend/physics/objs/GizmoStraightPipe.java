@@ -74,7 +74,7 @@ public class GizmoStraightPipe extends WorldObjects{
                 + objectId + "#"
                 + (body.getPosition().x - rail_width) + "#"
                 + ((WorldConstant.HIGHT/WorldConstant.LENGTH - body.getPosition().y) - rail_height) + "#"
-                + (ifVertical?1:0);
+                + (ifVertical?0:1);
     }
 
     private void rotateStatusPass(){

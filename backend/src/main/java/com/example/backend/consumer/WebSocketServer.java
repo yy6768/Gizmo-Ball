@@ -6,8 +6,10 @@ import com.example.backend.exception.MessageException;
 import com.example.backend.physics.WorldConstant;
 import com.example.backend.physics.WorldManager;
 import com.example.backend.physics.objs.GizmoBaffle;
+import com.example.backend.physics.objs.GizmoBall;
 import com.example.backend.physicsInterface.GizmoObject;
 import com.example.backend.physicsInterface.GizmoWorld;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
@@ -29,7 +31,16 @@ public class WebSocketServer {
 
     private Game game = null;
 
-    private WorldManager worldManager = new WorldManager();
+    private static WorldManager worldManager;
+
+    @Autowired
+    public void setWorldManager(WorldManager worldManager) {
+        WebSocketServer.worldManager = worldManager;
+    }
+
+    public WorldManager getWorldManager(){
+        return WebSocketServer.worldManager;
+    }
 
     //启动游戏
     private void startGame() {
@@ -37,22 +48,43 @@ public class WebSocketServer {
         game.start();
     }
 
-    public void setWorldManager(WorldManager worldManager) {
-        this.worldManager = worldManager;
-        initLayout();
-    }
 
     //结束游戏
     public void endGame() {
-        game.setDone(true);
-        sendMessage("endGame");
-        initLayout();
+        if (game != null) {
+            game.setDone(true);
+            StringBuilder result = new StringBuilder();
+            result.append("endGame ");
+            if (worldManager.getBall() != null) {
+                GizmoBall ball = (GizmoBall) worldManager.getBall();
+                ball.reposition();
+                result.append(ball).append(" ");
+            }
+            if (worldManager.getLeftBaffle() != null) {
+                GizmoBaffle baffle = (GizmoBaffle) worldManager.getLeftBaffle();
+                baffle.reposition();
+                result.append(baffle).append(" ");
+            }
+            if (worldManager.getRightBaffle() != null) {
+                GizmoBaffle baffle = (GizmoBaffle) worldManager.getRightBaffle();
+                baffle.reposition();
+                result.append(baffle).append(" ");
+            }
+            sendMessage(result.toString());
+        }
+        game = null;
     }
 
     //载入布局
     private void initLayout() {
-        //包装好的world需要实现toString方法
-        sendMessage(worldManager.toString());
+//        if (worldManager.getBall() != null) sendMessage(worldManager.getBall().toString());
+//        if (worldManager.getLeftBaffle() != null) sendMessage(worldManager.getLeftBaffle().toString());
+//        if (worldManager.getRightBaffle() != null) sendMessage(worldManager.getRightBaffle().toString());
+        for (GizmoObject e : getWorldManager().getAll()) {
+            if (e.toString().startsWith("WorldEdge")) continue;
+//            sendMessage(e.toString());
+//            System.out.println(e);
+        }
     }
 
     //开启连接
@@ -92,7 +124,6 @@ public class WebSocketServer {
             startGame();
         } else if ("endGame".equalsIgnoreCase(message)) {
             endGame();
-            initLayout();
         } else if (message.startsWith("add")) {
             addComponents(message);
         } else if (message.startsWith("delete")) {
@@ -114,18 +145,11 @@ public class WebSocketServer {
             int id = Integer.parseInt(messages[1]);
             GizmoObject object = worldManager.get(id);
             object.shrink();
-        } else if (message.startsWith("left")) {
-            String[] messages = message.split(" ");
-            float direction = Integer.parseInt(messages[2]);
-            GizmoBaffle leftBaffle = (GizmoBaffle) worldManager.getLeftBaffle();
-            leftBaffle.setSpeed(direction * WorldConstant.BAFFLE_SPEED, 0f);
-        } else if (message.startsWith("right")) {
-            String[] messages = message.split(" ");
-            float direction = Integer.parseInt(messages[2]);
-            GizmoBaffle rightBaffle = (GizmoBaffle) worldManager.getRightBaffle();
-            rightBaffle.setSpeed(direction * WorldConstant.BAFFLE_SPEED, 0f);
+        } else if (message.startsWith("left") || message.startsWith("right")) {
+            if (game != null && !game.isDone()) {
+                game.setBaffle(message);
+            }
         } else {
-            System.out.println(message);
             throw new MessageException("websocket信息处理错误");
         }
     }
@@ -176,7 +200,5 @@ public class WebSocketServer {
         }
     }
 
-    public WorldManager getWorldManager() {
-        return worldManager;
-    }
+
 }

@@ -22,7 +22,7 @@ export class GameMap extends GimzoObject {
 
         this.ball = null;
         this.leftBaffle = null;
-        this.rigthBaffle = null;
+        this.rightBaffle = null;
         //记录每个格子放的对象id
         this.components = {};
     }
@@ -84,13 +84,13 @@ export class GameMap extends GimzoObject {
                 this.leftBaffle.destroy();
             }
             type = "Baffle";
-            object = this.leftBaffle = new Baffle(this, p[0], p[1]);
+            object = this.leftBaffle = new Baffle(this, p[0], p[1], true);
         } else if(type ==='RightBaffle'){
-            if(this.rigthBaffle !== null){
-                this.rigthBaffle.destroy();
+            if(this.rightBaffle !== null){
+                this.rightBaffle.destroy();
             }
             type = "Baffle";
-            object = this.rigthBaffle = new Baffle(this, p[0], p[1]);
+            object = this.rightBaffle = new Baffle(this, p[0], p[1], false);
         } else {
             console.log("wrong type");
             return false;
@@ -107,9 +107,9 @@ export class GameMap extends GimzoObject {
                 let p = this.getEventPosition(e);
                 let type = this.store.state.layout.objectType;
                 if(type === 'LeftBaffle') {
-                    p[0] = this.cols / 4;
+                    p[0] = this.cols / 4 - 1;
                 } else if(type === 'RightBaffle'){
-                    p[0] = this.cols/ 4 * 3 ;
+                    p[0] = this.cols/ 4 * 3 - 1;
                 }
                 if(this.store.state.layout.objectType !== "click" && this.check_position(p)){
                     this.add(p);
@@ -124,23 +124,56 @@ export class GameMap extends GimzoObject {
         
     }
 
+    //调整地图大小时的函数
     update_size() {
         this.L = parseInt(Math.min(this.parent.clientWidth / this.cols, this.parent.clientHeight / this.rows));
         this.ctx.canvas.width = this.L * this.cols;
         this.ctx.canvas.height = this.L * this.rows;
     }
 
+    //更新函数
+    next_step(msgs){
+        const components_msgs = msgs.split(" ");
+        for(let component_msg of components_msgs){
+            if(component_msg === "") continue;
+            const msg = component_msg.split("#");
+            const x = msg[5];
+            const y = msg[6];
+            if(msg[0] === 'Ball'){
+                this.ball.set_position(x, y);
+            } else if(msg[0] === 'Baffle'){
+                const isLeft = msg[4];
+                console.log(isLeft);
+                if(isLeft === "true") this.leftBaffle.set_position(x, y);
+                else this.rightBaffle.set_position(x, y);
+            }
+        }
+    }
 
-    next_step(){
-        //TODO(游戏进行时每一步变化)
+    //初始化布局的函数
+    init_layout(msg){
+        const msgs = msg.split(" ");
+        if(msgs[0] === 'endGame'){
+            
+            for(let i = 1; i < msgs.length; i++){
+                const infos = msgs[i].split("#");
+                const type = infos[0];
+                const x = infos[2];
+                const y = infos[3];
+                if(type === 'Ball') this.ball.set_position(x, y);
+                else if(type === 'Baffle'){
+                    const isLeft = infos[4];
+                    if(isLeft === "true") this.leftBaffle.set_position(x, y);
+                    else this.rightBaffle.set_position(x, y);
+                }
+            }
+        } else if(msgs[0] === 'initLayout'){
+            this.clear();
+        }
     }
 
     update() {
         this.update_size();
-        //游玩的时候进行下一步
-        if(this.store.state.layout.status === 'game'){
-            this.next_step();
-        }
         this.render();
     }
 
@@ -155,6 +188,14 @@ export class GameMap extends GimzoObject {
                 }
                 this.ctx.fillRect(c * this.L, r * this.L, this.L, this.L);
             }
+        }
+    }
+    //清除所有组件
+    clear(){
+        for(let i in this.components){
+            let obj = this.components[i];
+            if(obj != undefined)
+                obj.destroy();
         }
     }
 }

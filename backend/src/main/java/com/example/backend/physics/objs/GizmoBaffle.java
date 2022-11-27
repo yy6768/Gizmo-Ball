@@ -79,8 +79,8 @@ public class GizmoBaffle extends WorldObjects{
         body.setLinearVelocity(new Vec2(0, 0));
     }
 
-    public void setPosition(Float x, Float y){
-        body.setTransform(new Vec2(x,y), 0);
+    public void reposition(){
+        initBaffleInWorld_DYNAMIC();
     }
 
 
@@ -128,11 +128,17 @@ public class GizmoBaffle extends WorldObjects{
 
     @Override
     public String toString() {
+        float trueX = body.getPosition().x - Baffle_width;
+        float trueY = (WorldConstant.CANVAS_HEIGHT - body.getPosition().y) - Baffle_height;
+        float initX = worldX - Baffle_width;
+        float initY = (WorldConstant.CANVAS_HEIGHT - worldY) - Baffle_height;
         return "Baffle" + "#"
                 + objectId + "#"
-                + (body.getPosition().x - Baffle_width) + "#"
-                + ((WorldConstant.CANVAS_HEIGHT - body.getPosition().y) - Baffle_height) + "#"
-                + ifLeft;
+                + initX + "#"
+                + initY + "#"
+                + ifLeft + "#"
+                + trueX + "#"
+                + trueY;
     }
 
 
